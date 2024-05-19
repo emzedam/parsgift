@@ -1,0 +1,37 @@
+[
+    {
+        "id":1,
+        "sefareshId": 93681,
+        "sefareshIds": 7145,
+         "sefareshNum": 5,
+             "sefareshPrice": "5000 تومان",
+        "sefareshIcon": "/10.jpg",
+        "sefareshName": "خرید سی پی کالاف دیوتی موبایل",
+        "sefareshAdded": "محبوب حسین زاده",
+        "sefareshDate": "1401/02/28",
+        "sefareshStatus":0,
+        "sefareshOutStock": "/out-of-stock.svg",
+        "sefareshCopy": "fa-thin fa-copy",
+        "sefareshDelete": "fa-thin fa-trash-can",
+        "sefareshEdit": "fa-thin fa-edit",
+        "sefareshEye": "fa-thin fa-eye"
+    },
+    {
+        "id":1,
+        "sefareshId": 1541,
+        "sefareshIds": 2360,
+        "sefareshNum": 7,
+             "sefareshPrice": "5000 تومان",
+        "sefareshIcon": "/10.jpg",
+        "sefareshName": "خرید جم کلش رویال",
+        "sefareshAdded": "محبوب حسین زاده",
+        "sefareshDate": "1401/02/28",
+        "sefareshStatus": 1,
+        "sefareshCopy": "fa-thin fa-copy",
+        "sefareshDelete": "fa-thin fa-trash-can",
+        "sefareshEdit": "fa-thin fa-edit",
+        "sefareshEye": "fa-thin fa-eye"
+    }
+
+
+]
