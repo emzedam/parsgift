@@ -3,28 +3,11 @@
     <div class="p-3 px-6 w-full">
       <div class="w-full">
         <div class="flex items-center justify-between pars">
-          <ul class="flex items-center">
-            <li class="block ml-[16px]">
-              <a href="/giftall">خرید گیفت کارت</a>
-            </li>
-            <li class="block ml-[16px]">
-              <a href="/product/call-of-duty-mobile">
-                خرید سی پی کالاف دیوتی موبایل</a
-              >
-            </li>
-            <li class="block ml-[16px]">
-              <a href="/product/garena_free_fire">خرید جم فری فایر</a>
-            </li>
-            <li class="block ml-[16px]">
-              <a href="/product-category/PlayStation-Account"
-                >خرید اکانت قانونی پلی استیشن</a
-              >
-            </li>
-            <li class="block ml-[16px]">
-              <a href="/product-category/Premium-Account">خرید اکانت پرمیوم</a>
-            </li>
-            <li class="block ml-[16px]">
-              <a href="/product/telegram-premium">خرید اکانت تلگرام پرمیوم</a>
+          <ul v-if="initData.headingCategories.length != 0" class="flex items-center">
+            <li v-for="(category , index) in initData.headingCategories" :key="category.id" class="block ml-[16px]">
+              <nuxt-link :to="`/category/${category.slug}-${category.id}`">
+                {{ category.title }} 
+              </nuxt-link>
             </li>
           </ul>
           <div class="socials pars">
@@ -309,3 +292,16 @@
     </div>
   </section>
 </template>
+
+<script setup>
+const props = defineProps({
+  initData: {
+    required: true,
+    type: [Array , Object]
+  }
+})
+
+// onMounted(() => {
+//   console.log(props.initData)
+// })
+</script>

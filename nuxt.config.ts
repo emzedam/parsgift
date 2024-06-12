@@ -6,12 +6,26 @@ export default defineNuxtConfig({
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
-      
     },
   },
-
-
-
+  nitro: {
+    prerender: {
+      routes: ['/']
+    }
+  },
+  runtimeConfig: {
+    public: {
+      appBaseUrl: 'https://api.giftparsi.ir'
+    }
+  },
+  modules: [
+    '@pinia/nuxt',
+  ],
+  pinia: {
+    autoImports: [
+      'defineStore',
+    ],
+  },
   app: {
     head: {
       charset: 'utf-8',
@@ -19,16 +33,14 @@ export default defineNuxtConfig({
       htmlAttrs: {
         dir: 'rtl'
       },
-      title: 'Seller Dashboard',
+      title: 'پارسی گیفت',
       meta: [
-        { name: 'description', content: 'Seller Dashboard' }
+        { name: 'description', content: 'پارسی گیفت' }
       ],
       bodyAttrs: {
         class: 'font-fa'
       },
     }
-    
-    
   },
 
 })
