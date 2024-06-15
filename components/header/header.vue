@@ -74,7 +74,7 @@
           </div>
           <div class="pars">
             <ul class="flex items-center">
-              <li class="block ml-[27px]"><a href="">صفحه اصلی</a></li>
+              <li class="block ml-[27px]"><nuxt-link to="/">صفحه اصلی</nuxt-link></li>
               <li class="block ml-[27px]">
                 <a href="googleplay">خرید از گوگل پلی</a>
               </li>

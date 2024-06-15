@@ -141,7 +141,7 @@
                         <swiper-slide v-for="(product , index) in vitrin.products" :key="product.id" class="rounded-lg h-full border bg-white">
         
                             <nuxt-link 
-                            :to="`/product/${product.fa_title.replace(' ' , '-')}-${product.id}`"
+                            :to="`/product/${vitrin.id}/${product.fa_title.replace(' ' , '-')}-${product.id}`"
                             class="rounded-lg h-full overflow-hidden relative">
                                 <figure class="rounded-lg h-full">
                                     <img class="rounded-t-lg h-full" :src="`${appBaseUrl}/storage/product/${product.index_image}`" alt="خرید گیفت کارت آیتونز">
@@ -290,7 +290,7 @@ const onSlideChange = () => {
 }
 
 onMounted(() => {
-    console.log(appBaseUrl)
+    
 })
 
 </script>

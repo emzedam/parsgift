@@ -1,5 +1,7 @@
 <template>
-  <single />
+  <single 
+  v-if="productData != null"
+  :productData="productData" />
 </template>
 
 <script setup>
@@ -15,18 +17,20 @@ const {appBaseUrl} = useRuntimeConfig().public
 
 const parsiStore = useParsgiftStore()
 const {globalLoading} = storeToRefs(parsiStore)
+const productData = ref(null)
 
-// onMounted(() => {
-  
-// })
+onMounted(() => {
+  console.log(route)
+})
 
 const getProductData = async (id) => {
   globalLoading.value = true
-  const {data} = await useFetch(`${appBaseUrl}/api/parsgift/get-product?id=${id}`)
-  
+  const {data} = await useFetch(`${appBaseUrl}/api/parsgift/get-product?id=${id}&catId=${route.params.category}`)
+
   const dataJson = data.value
   if(dataJson.status == 200) {
-    console.log(dataJson.result)
+    productData.value = dataJson.result
+    console.log(productData.value)
 
     setTimeout(() => {
       globalLoading.value = false
