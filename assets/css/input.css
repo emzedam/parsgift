@@ -389,4 +389,111 @@
     z-index: 100;
 }
 
+
+.rating-review-item {
+  display: flex;
+  align-items: center;
+}
+
+.rating-review-item .left-rating {
+  flex: 1 1 20%;
+  max-width: 20%;
+}
+
+.rating-review-item .left-rating .star-rating {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.rating-review-item .left-rating .star-rating h3 {
+  margin: 0 12px 0 0;
+  font-size: 40px;
+}
+
+.rating-review-item .left-rating .star-rating .fa-star {
+  font-size: 30px;
+  color: #28a745;
+}
+
+.rating-review-item .left-rating .number-rating span {
+  display: block;
+  margin-bottom: 2px;
+  color: #474848;
+  font-size: 14px;
+}
+
+.rating-review-item .right-rating {
+  flex: 1 1 60%;
+}
+
+.rating-review-item .right-rating ul.order-list {
+  margin-bottom: 0;
+  padding-right: 0;
+  list-style: none;
+}
+
+.rating-review-item .right-rating ul.order-list li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+  justify-content: flex-end;
+}
+
+.rating-review-item .right-rating ul.order-list li:last-child {
+  margin-bottom: 0;
+}
+
+.rating-review-item .right-rating ul.order-list li .star-value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0;
+  min-width: 25px;
+}
+
+.rating-review-item .right-rating ul.order-list li .star-value h5 {
+  font-size: 13px;
+  line-height: 0;
+  padding-left: 5px;
+}
+
+.rating-review-item .right-rating ul.order-list li .star-value .fa-star {
+  font-size: 14px;
+}
+
+.rating-review-item .right-rating ul.order-list li .progress {
+  flex: 1 1 315px;
+  max-width: 315px;
+  height: 4px;
+  margin-left: 20px;
+  margin-bottom: 0;
+  background-color: #ddd;
+  position: relative;
+}
+
+.rating-review-item .right-rating ul.order-list li .rating-hit {
+  color: #474848;
+  font-size: 14px;
+  margin-left: 15px;
+  direction: ltr !important;
+  text-align: left;
+}
   
+.progress-bar {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-pack: center;
+  justify-content: center;
+  overflow: hidden;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  transition: width .6s ease;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}

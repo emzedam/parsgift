@@ -8,30 +8,32 @@
         </div>
     
         <swiper
+          v-if="galleries.length != 0"
           class="relative w-full"
           :modules="modules"
           :slides-per-view="3"
           :space-between="6"
           :breakpoints="{ 600: { slidesPerView: 2 }, 900: { slidesPerView: 4 } }"
         >
-          <swiper-slide class="rounded-lg h-[150px]">
+          <swiper-slide
+          v-for="(gallery , index) in galleries" :key="gallery"
+          class="rounded-lg h-[150px]">
             <article class="rounded-lg group">
-              <figure class="rounded-lg relative overflow-hidden">
+              <a :href="`${appBaseUrl}/storage/product/gallery/${gallery}`" target="_blank" class="rounded-lg relative overflow-hidden">
                 <img
                   class="rounded-t-lg h-[150px] w-full object-cover border"
-                  src="@/assets/images/play.webp"
-                  alt="خرید گیفت کارت آیتونز"
+                  :src="`${appBaseUrl}/storage/product/gallery/${gallery}`"
                 />
-              </figure>
-              <button
-                type="button"
-                class="absolute inset-0 text-2xl text-white bg-black/20 rounded-lg group-hover:opacity-100 opacity-0 transition-all duration-300"
+              </a>
+              <a :href="`${appBaseUrl}/storage/product/gallery/${gallery}`" target="_blank"
+                class="absolute inset-0 text-2xl text-white bg-black/20 rounded-lg group-hover:opacity-100 opacity-0 transition-all duration-300 flex items-center justify-center"
               >
                 <i class="fa-duotone fa-magnifying-glass-plus"></i>
-              </button>
+              </a>
             </article>
           </swiper-slide>
         </swiper>
+        <div v-else>تصویر اضافه نشده !</div>
       </section>
 </template>
 
@@ -46,6 +48,14 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 import "swiper/css/navigation";
 
+const { appBaseUrl } = useRuntimeConfig().public
+
+const props = defineProps({
+  galleries: {
+    required: true,
+    type: [Array , Object]
+  }
+})
 
 const onSwiper = (swiper) => {
   console.log(swiper);

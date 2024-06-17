@@ -100,6 +100,7 @@
           </button>
 
           <button
+           v-if="productData.accounts.length != 0"
             type="button"
             class="border p-4 rounded-lg flex items-center lg:w-2/4 w-full justify-between"
           >
@@ -111,7 +112,7 @@
         <div
           class="left flex flex-col justify-start text-right w-full space-y-5"
         >
-          <div class="flex items-center">
+          <div class="flex items-center" v-if="productData.accounts.length != 0">
             <i class="fa fa-check-circle pl-2 text-green-500"></i>
             <span>حساب های مجاز :</span>
             <span class="mr-2" v-for="(account , index) in productData.accounts" :key="account.id">
@@ -177,21 +178,44 @@
 
   <section>
     <ul class="Tabs bg-gray-100 my-4 rounded-md flex gap-4 font-iransans">
-      <li class="bg-gray-200 p-4 cursor-pointer">توضیحات</li>
-      <li class="p-4 cursor-pointer">سوالات متداول</li>
-      <li class="p-4 cursor-pointer">نظرات کاربران</li>
+      <li 
+        @click="activeTab = 0" 
+        :class="activeTab == 0 ? 'bg-gray-200' : ''"
+        class="p-4 cursor-pointer">توضیحات</li>
+      <li 
+        @click="activeTab = 1" 
+        :class="activeTab == 1 ? 'bg-gray-200' : ''"
+        class="p-4 cursor-pointer">سوالات متداول</li>
+      <li 
+        @click="activeTab = 2" 
+        :class="activeTab == 2 ? 'bg-gray-200' : ''"
+        class="p-4 cursor-pointer">نظرات کاربران</li>
     </ul>
-    <div
-      class="content bg-white border text-justify p-4 rounded-lg font-iransans"
-    >
-      هوش مصنوعی چت جی پی تی یک مدل زبانی بزرگ است که توسط OpenAI آموزش دیده است
-      و به تازگی کل جهان را تحت تاثیر خود قرار داده است.
-    </div>
+    
+    <Description 
+      v-if="activeTab == 0" 
+      :content="productData.content"
+    />
+
+    <Faqs 
+      :faqsList="productData.questions"
+      v-if="activeTab == 1" 
+    />
+
+    <Comments 
+      v-if="activeTab == 2" 
+      :productId="productData.id"
+      :comments="productData.comments"
+      @updateComment="(data) => productData.comments = data"
+    />
+
   </section>
 
   
 
-  <ProductImages />
+  <ProductImages
+    :galleries="productData.gallery"
+  />
 
   <RelatedProducts />
 
@@ -213,12 +237,17 @@
 </template>
 
 <script setup>
+import Comments from './singleSections/Comments.vue'
+import Description from './singleSections/Description.vue'
+import Faqs from './singleSections/Faqs.vue'
+
 import RelatedProducts from './singleSections/RelatedProducts.vue'
 import ProductImages from './singleSections/ProductImages.vue'
 import AccountModal from './modals/AccountModal.vue'
 import PropertyModal from './modals/PropertyModal.vue'
 
 
+const activeTab = ref(0)
 const propertyModalState = ref(false)
 const { appBaseUrl } = useRuntimeConfig().public
 

@@ -1,48 +1,59 @@
 <template>
-  <section class="border my-4 rounded-lg">
-    <div class="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div class="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2
-          class="mt-8 text-center text-3xl font-bold tracking-tight text-gray-900"
-        >
-          ورود به پارسی گیفت
-        </h2>
-      </div>
+    <section class="border my-4 rounded-lg">
+      <div class="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div class="sm:mx-auto sm:w-full sm:max-w-md">
+          <h2
+            class="mt-8 text-center text-3xl font-bold tracking-tight text-gray-900"
+          >
+            عضویت در پارسی گیفت
+          </h2>
+        </div>
+  
+        <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+          <div class="bg-white py-8 sm:px-10">
+            <form @submit.prevent="do_verifyphone()" class="space-y-6">
 
-      <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div class="bg-white py-8 sm:px-10">
-          <form  @submit.prevent="do_verifyphone()" class="space-y-6">
-            
-            <p id="outlined_error_help"
-            v-if="error != ''"
-            class="mt-2 text-sm text-red-600 dark:text-red-400">
-            {{ error }}</p>
+              <p id="outlined_error_help"
+              v-if="error != ''"
+              class="mt-2 text-sm text-red-600 dark:text-red-400">
+              {{ error }}</p>
 
-            <div>
-              <div class="mt-1">
-                <input
-                  id="mobile"
-                  name="mobile"
-                  type="number"
-                  autocomplete="mobile"
-                  placeholder="شماره موبایل"
-                  v-model="data.mobile"
-                  required
-                  class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-4 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
-                />
+              <div>
+                <div class="mt-1">
+                  <input
+                    id="mobile"
+                    name="mobile"
+                    type="text"
+                    v-model="data.name"
+                    placeholder="نام و نام خانوادگی"
+                    required
+                    class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-4 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                  />
+                </div>
+                <div class="mt-1">
+                  <input
+                    id="mobile"
+                    name="mobile"
+                    type="number"
+                    v-model="data.mobile"
+                    placeholder="شماره موبایل"
+                    required
+                    class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-4 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                  />
+                </div>
               </div>
-            </div>
-
-            <div class="!mt-2">
-              <button
-                type="submit"
-                class="flex w-full justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              >
-                <div class="lds-ring" v-if="isLoding == true"><div></div><div></div><div></div><div></div></div>
-                <span v-if="isLoding == false" class="mr-2 font-normal"> ورود به حساب کاربری </span>
-              </button>
-            </div>
-          </form>
+  
+              <div>
+                <button
+                  type="submit"
+                  class="flex w-full justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                >
+                  <div class="lds-ring" v-if="isLoding == true"><div></div><div></div><div></div><div></div></div>
+                  <span v-if="isLoding == false" class="mr-2 font-normal"> عضویت </span>
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
 
@@ -50,21 +61,20 @@
         :activeModal="activeVerifyModal"
         @closeModal="activeVerifyModal = false"
         @resendOtp="resendOtp()"
-        @addUser="(otpCode) => doSignIn(otpCode)"
+        @addUser="(otpCode) => doSignUp(otpCode)"
         :resendLoading="resendLoading"
         :resendended="resendended"
         :addLoading="addLoading"
        />
-    </div>
-  </section>
-</template>
-
+    </section>
+  </template>
 
 <script setup>
     import { useParsgiftStore } from '~/store/parsiStore';
     import VerifyCodeModal from '@/components/UserDashboard/auth/verify.vue'
     
     const data = reactive({
+      name: "",
       mobile: "",
       otp: ""
     })
@@ -81,7 +91,7 @@
     const router = useRouter()
 
     const do_verifyphone = async () => {
-        if(data.mobile != "") {
+        if(data.mobile != "" || data.name != "") {
             isLoding.value = true
             const result = await parsiStore.verify_by_user_mobile(data)
             if(result != false && result.status == 200){
@@ -89,12 +99,12 @@
                 isLoding.value = false
             }
         }else {
-            showSwal("خطای اعتبارسنجی" , "لطفا شماره موبایل را وارد کنید", "error")
+            showSwal("خطای اعتبارسنجی" , "لطفا تمامی اطلاعات خواسته شده را وارد کنید", "error")
         }
     }
 
     const resendOtp = async () => {
-        if(data.mobile != "") {
+        if(data.mobile != "" || data.name != "") {
             resendLoading.value = true
             const result = await parsiStore.verify_by_user_mobile(data)
             if(result != false && result.status == 200){
@@ -102,15 +112,15 @@
                 resendLoading.value = false
             }
         }else {
-            showSwal("خطای اعتبارسنجی" , "لطفا شماره موبایل را وارد کنید", "error")
+            showSwal("خطای اعتبارسنجی" , "لطفا تمامی اطلاعات خواسته شده را وارد کنید", "error")
         }
     }
 
-    const doSignIn = async (otp) => {
-        if(otp != "" && data.mobile != ""){
+    const doSignUp = async (otp) => {
+        if(otp != "" && data.mobile != "" && data.name != ""){
             addLoading.value = true
             data.otp = otp
-            const result = await parsiStore.signin_user(data)
+            const result = await parsiStore.signup_user(data)
             console.log(result)
             if(result != false){
                 if(result.status == 200) {
@@ -126,6 +136,8 @@
                 addLoading.value = false
                 showSwal("خطایی رخ داد !" , "خطای سمت سرور" , "error")
             }
+        }else {
+          showSwal("خطایی رخ داد !" , "تمامی اطلاعات خواسته شده را وارد کنید" , "error")
         }
     }
 
@@ -141,7 +153,7 @@
     middleware: 'supporter-guest',
     layout: 'login-layout'
   })
-  </script>
+</script>
   
   <style>
   .lds-ring {
@@ -187,3 +199,4 @@
     }
   }
   </style>
+  

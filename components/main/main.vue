@@ -114,6 +114,48 @@
         </div>
 
         <!-- vitrin -->
+        <div>
+            <vitrinSlider
+            bgColor="bg-white">
+                <template #header>
+                    <div class="product__header">
+                        <div class="product__header-logo">
+                            <i class="fa fa-list-alt text-xl text-red-500"></i>
+                        </div>
+                        <h2 class="product__header-title !text-sm">
+                           جدیدترین محصولات
+                        </h2>
+                    </div>
+                </template>
+                <!-- products -->
+                <template #content v-if="initData.leatestProducts.length != 0">
+                    <swiper class="relative  w-full" :modules="modules" :slides-per-view="2" :space-between="20" :breakpoints="{ 600: { slidesPerView: 2 }, 900: { slidesPerView: 6, }, }">
+                        <swiper-slide v-for="(product , index) in initData.leatestProducts" :key="product.id" class="rounded-lg h-full border bg-white">
+        
+                            <nuxt-link 
+                            :to="`/product/${product.categories['ids'][0]}/${product.fa_title.replace(' ' , '-')}-${product.id}`"
+                            class="rounded-lg h-full overflow-hidden relative">
+                                <figure class="rounded-lg h-full">
+                                    <img class="rounded-t-lg h-full" :src="`${appBaseUrl}/storage/product/${product.index_image}`" alt="خرید گیفت کارت آیتونز">
+                                </figure>
+                                <header class="p-3 text-gray-700 text-center w-full">
+                                    <h2 class="text-lg font-semibold mb-2 w-full border-b pb-2 border-red-500">{{ product.fa_title }}</h2>
+                                    <span class="text-lg font-semibold mb-8  w-full">{{ product.en_title }}</span>
+                                    <span class="bg-red-500 my-2 rounded-full text-white text-xs py-1 hidden">20  درصد تخفیف</span>
+                                    <span class="text-lg font-semibold mb-8  w-full hidden">3000 <small class="text-xs">تومان</small></span>
+                                    <button type="button" class="bg-cyan-500 w-full text-white rounded-t-lg py-1.5 absolute bottom-[-20px] left-0 hidden">خرید</button>
+                                </header>
+                            </nuxt-link>
+                        </swiper-slide>
+        
+                    </swiper>
+                </template>
+                <template #content v-else></template>
+            </vitrinSlider>
+        </div>
+        <!-- vitrin -->
+
+        <!-- vitrin -->
         <div v-if="initData.vitrinCategories.length != 0">
             <vitrinSlider
             v-for="(vitrin , index) in initData.vitrinCategories" :key="vitrin.id"
@@ -282,7 +324,7 @@ const props = defineProps({
 const modules = ref([Navigation , A11y])
 
 const onSwiper = () => {
-    console.log("test")
+    // console.log("test")
 }
 
 const onSlideChange = () => {

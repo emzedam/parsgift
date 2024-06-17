@@ -50,34 +50,49 @@
         <div class="flex items-center justify-between w-full">
           <div class="socials">
             <ul class="flex items-center gap-4 justify-end">
-              <li>
-                <a
+              <li v-if="authUser == null">
+                <nuxt-link
                   class="flex items-center bg-gradient-to-r from-cyan-500 to-blue-500 px-4 py-2 rounded-lg text-white hover:bg-cyan-600"
-                  href=""
-                  title=""
+                  to="/user/login"
                 >
                   <i class="fa fa-user ml-2"></i>
                   <span>ورود</span>
-                </a>
+                </nuxt-link>
               </li>
-              <li>
-                <a
+              <li v-if="authUser == null">
+                <nuxt-link
                   class="flex items-center hover:text-cyan-600"
-                  href=""
-                  title=""
+                  to="/user/register"
                 >
                   <i class="fa fa-user-plus ml-2"></i>
                   <span>ثبت نام</span>
-                </a>
+                </nuxt-link>
               </li>
+
+              <a href="javascript:void(0)" @click="isShowDropDown = !isShowDropDown"  v-if="authUser != null" class="relative flex items-center bg-gradient-to-r from-cyan-500 to-blue-500 px-4 py-2 rounded-lg text-white hover:bg-cyan-600">
+                <i class="fa fa-user ml-2"></i>
+                <span>{{ authUser.name }}</span>
+
+                <ul 
+                :class="isShowDropDown == true ? '' : 'hidden'"
+                class="absolute text-gray-500 top-[50px] z-[1000] right-0 w-[200px] h-auto rounded-lg shadow-lg bg-white">
+                    <li class="w-full px-3 py-3 cursor-pointer hover:bg-gray-50 border-b font-normal">
+                        <nuxt-link to="/user/dashboard">
+                          <i class="fa fa-user ml-2 text-hamian"></i> مدیریت حساب
+                        </nuxt-link>
+                    </li>
+                    <li
+                    @click="doSignOut()"
+                    class="w-full px-3 py-3 cursor-pointer hover:bg-gray-50 font-normal">
+                        <i class="fa fa-sign-out-alt ml-2 text-hamian"></i>خروج از حساب
+                    </li>
+                </ul>
+              </a>
             </ul>
           </div>
           <div class="pars">
             <ul class="flex items-center">
               <li class="block ml-[27px]"><nuxt-link to="/">صفحه اصلی</nuxt-link></li>
-              <li class="block ml-[27px]">
-                <a href="googleplay">خرید از گوگل پلی</a>
-              </li>
               <li class="block ml-[27px]">
                 <a href="product/product-ordable">پرداخت ارزی آنلاین</a>
               </li>
@@ -294,12 +309,42 @@
 </template>
 
 <script setup>
+import { useParsgiftStore } from "~/store/parsiStore";
+import { storeToRefs } from 'pinia';
+
+const { $swal } = useNuxtApp()
+const isShowDropDown = ref(false)
+const parsiStore = useParsgiftStore()
+const {authUser} = storeToRefs(parsiStore)
+
 const props = defineProps({
   initData: {
     required: true,
     type: [Array , Object]
   }
 })
+
+const doSignOut = async () => {
+    $swal.fire({
+        title: "هشدار",
+        text: "آیا از خروج حساب کاربری خود مطمعنید؟",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#9d2c48",
+        cancelButtonColor: "#555",
+        cancelButtonText: "خیر",
+        confirmButtonText: "بله",
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            const result = await parsiStore.logout_user()
+            if(result.status == 200){
+                showSwal("پیغام موفقیت آمیز" , "خروج از حساب با موفقیت انجام شد" , "success")
+            }else{
+                showSwal("پیغام خطا" , result.message , "error")
+            }
+        }
+    });
+}
 
 // onMounted(() => {
 //   console.log(props.initData)

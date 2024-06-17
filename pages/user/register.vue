@@ -1,12 +1,11 @@
 <template>
 
-      <Login />
+    <Register />
 
 </template>
 
 <script setup>
-import Login from "@/components/UserDashboard/auth/login.vue";
-
+import Register from "@/components/UserDashboard/auth/register.vue";
 definePageMeta({
       middleware: 'user-guest'
 })

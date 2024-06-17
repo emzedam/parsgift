@@ -20,7 +20,7 @@ const {globalLoading} = storeToRefs(parsiStore)
 const productData = ref(null)
 
 onMounted(() => {
-  console.log(route)
+
 })
 
 const getProductData = async (id) => {
@@ -30,7 +30,6 @@ const getProductData = async (id) => {
   const dataJson = data.value
   if(dataJson.status == 200) {
     productData.value = dataJson.result
-    console.log(productData.value)
 
     setTimeout(() => {
       globalLoading.value = false
