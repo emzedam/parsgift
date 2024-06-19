@@ -6,7 +6,7 @@
         <section
           class="slider w-full h-60 lg:text-6xl text-3xl flex items-center justify-center bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg text-white shadow-lg shadow-blue-500/50"
         >
-          <h2>خرید گیفت کارت ها</h2>
+          <h2>خرید {{ catData.title }}</h2>
         </section>
       </div>
       <!-- PARSIGIFT SLIDER -->
@@ -20,8 +20,8 @@
               class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse"
             >
               <li class="inline-flex items-center">
-                <a
-                  href="#"
+                <nuxt-link
+                  to="/"
                   class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white"
                 >
                   <svg
@@ -36,7 +36,7 @@
                     />
                   </svg>
                   خانه
-                </a>
+                </nuxt-link>
               </li>
               <li>
                 <div class="flex items-center">
@@ -55,10 +55,10 @@
                       d="m1 9 4-4-4-4"
                     />
                   </svg>
-                  <a
-                    href="#"
+                  <nuxt-link
+                    :to="`/category/${catData.slug}-${catData.id}`"
                     class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white"
-                    >گیفت کارتها</a
+                    >{{ catData.title }}</nuxt-link
                   >
                 </div>
               </li>
@@ -70,13 +70,14 @@
         >
           <div class="flex p-4">
             <i class="fa fa-grid-2 text-2xl pl-2"></i>
-            خرید گیفت کارت ها
+            خرید {{ catData.title }}
           </div>
           <i
             class="bg-orange-500 w-10 h-10 text-2xl text-blue-500 rounded-r-lg p-4"
           ></i>
         </div>
         <swiper
+          v-if="items.length != 0"
           class="relative w-full"
           :modules="modules"
           :slides-per-view="2"
@@ -86,13 +87,17 @@
             900: { slidesPerView: 4 },
           }"
         >
-          <swiper-slide class="rounded-lg h-full bg-white shadow-md">
-            <article class="rounded-lg h-full overflow-hidden relative">
+          <swiper-slide 
+          v-for="(category , index) in items" :key="category.id"
+          class="rounded-lg h-full bg-white shadow-md">
+            <nuxt-link
+            :to="`/category/${category.slug}-${category.id}`"
+            class="rounded-lg h-full overflow-hidden relative">
               <figure class="rounded-lg h-full">
                 <img
-                  class="rounded-t-lg h-full"
-                  src="https://dicardo.com/Uploads/giftkart/1/original-af593e2f-88dc-4b0e-b347-88f07bc43e03.webp"
-                  alt="خرید گیفت کارت آیتونز"
+                  class="rounded-t-lg w-full object-cover h-[250px]"
+                  :src="`${appBaseUrl}/storage/product/category_images/${category.cat_image}`" 
+                  :alt="category.title"
                 />
               </figure>
               <header
@@ -101,7 +106,7 @@
                 <h2
                   class="text-lg font-semibold w-full bg-blue-900 py-6 text-white flex items-center justify-center rounded-b-lg"
                 >
-                  خرید آیتونز
+                  خرید {{ category.title }}
                 </h2>
 
                 <button
@@ -112,7 +117,7 @@
                   <span class="font-semibold text-xl"> دیدن محصولات</span>
                 </button>
               </header>
-            </article>
+            </nuxt-link>
           </swiper-slide>
         </swiper>
       </div>
@@ -120,7 +125,7 @@
   </main>
 </template>
 
-<script>
+<script setup>
 // import Swiper core and required modules
 import { Navigation, A11y } from "swiper/modules";
 
@@ -131,24 +136,18 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 import "swiper/css/navigation";
 
-// Import Swiper styles
-export default {
-  components: {
-    Swiper,
-    SwiperSlide,
+const {appBaseUrl} = useRuntimeConfig().public
+const modules = [Navigation, A11y];
+
+const props = defineProps({
+  catData:{
+    required: true,
+    type: [Array , Object]
   },
-  setup() {
-    const onSwiper = (swiper) => {
-      console.log(swiper);
-    };
-    const onSlideChange = () => {
-      console.log("slide change");
-    };
-    return {
-      onSwiper,
-      onSlideChange,
-      modules: [Navigation, A11y],
-    };
-  },
-};
+  items: {
+    required: true,
+    type: [Array , Object]
+  }
+})
+
 </script>

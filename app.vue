@@ -25,7 +25,7 @@ const {globalLoading} = storeToRefs(parsiStore)
 
 async function fetchInitData() {
   globalLoading.value = true
-  const {data , pending} = await useFetch(`${appBaseUrl}/api/parsgift/get-init`, {
+  const {data} = await useFetch(`${appBaseUrl}/api/parsgift/get-init`, {
     lazy: true
   })
   const userJson = data.value

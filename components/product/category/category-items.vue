@@ -6,7 +6,7 @@
         <section
           class="slider w-full h-60 lg:text-6xl text-3xl flex items-center justify-center bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg text-white shadow-lg shadow-blue-500/50"
         >
-          <h2>همه محصولات آیتونز</h2>
+          <h2>همه محصولات {{ catData.title }}</h2>
         </section>
       </div>
       <!-- PARSIGIFT SLIDER -->
@@ -20,8 +20,8 @@
               class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse"
             >
               <li class="inline-flex items-center">
-                <a
-                  href="#"
+                <nuxt-link
+                  to="/"
                   class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white"
                 >
                   <svg
@@ -36,7 +36,7 @@
                     />
                   </svg>
                   خانه
-                </a>
+                </nuxt-link>
               </li>
               <li>
                 <div class="flex items-center">
@@ -55,11 +55,11 @@
                       d="m1 9 4-4-4-4"
                     />
                   </svg>
-                  <a
-                    href="#"
+                  <nuxt-link
+                    :to="`/category/${catData.slug}-${catData.id}`"
                     class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white"
-                    >محصولات آیتونز
-                  </a>
+                    >{{ catData.title }} 
+                  </nuxt-link>
                 </div>
               </li>
             </ol>
@@ -70,20 +70,24 @@
         >
           <div class="flex p-4">
             <i class="fa fa-grid-2 text-2xl pl-2"></i>
-            همه محصولات آیتونز
+            همه محصولات {{ catData.title }} 
           </div>
           <i
             class="bg-orange-500 w-10 h-10 text-2xl text-blue-500 rounded-r-lg p-4"
           ></i>
         </div>
-        <div class="relative w-full grid lg:grid-cols-4">
-          <div class="rounded-lg h-full bg-white shadow-md">
-            <article class="rounded-lg overflow-hidden relative">
+        <div class="relative w-full grid gap-4 lg:grid-cols-4" v-if="items.length">
+          <div class="rounded-lg h-full bg-white shadow-md"
+          v-for="(product , index) in items" :key="product.id"
+          >
+            <nuxt-link
+            :to="`/product/${product.categories.ids[0]}/${product.fa_title.replace(' ' , '-')}-${product.id}`"
+            class="rounded-lg overflow-hidden relative">
               <figure class="rounded-lg">
                 <img
                   class="rounded-t-lg"
-                  src="https://dicardo.com/Uploads/giftkart/1/original-af593e2f-88dc-4b0e-b347-88f07bc43e03.webp"
-                  alt="خرید گیفت کارت آیتونز"
+                  :src="`${appBaseUrl}/storage/product/${product.index_image}`"
+                  :alt="product.fa_title"
                 />
               </figure>
               <header
@@ -92,7 +96,7 @@
                 <h2
                   class="text-lg font-semibold w-full bg-white py-6 text-black flex items-center justify-center"
                 >
-                  خرید آیتونز آمریکا
+                  خرید  {{ product.fa_title }}
                 </h2>
 
                 <button
@@ -103,10 +107,26 @@
                   <span class="font-semibold text-xl"> خرید</span>
                 </button>
               </header>
-            </article>
+            </nuxt-link>
           </div>
         </div>
       </div>
     </section>
   </main>
 </template>
+
+<script setup>
+const {appBaseUrl} = useRuntimeConfig().public
+
+const props = defineProps({
+  catData:{
+    required: true,
+    type: [Array , Object]
+  },
+  items: {
+    required: true,
+    type: [Array , Object]
+  }
+})
+
+</script>

@@ -1,6 +1,6 @@
 <template>
   <section class="border my-4 rounded-lg">
-    <div class="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div class="flex min-h-full px-5 flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div class="sm:mx-auto sm:w-full sm:max-w-md">
         <h2
           class="mt-8 text-center text-3xl font-bold tracking-tight text-gray-900"

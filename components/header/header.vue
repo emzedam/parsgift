@@ -94,14 +94,15 @@
             <ul class="flex items-center">
               <li class="block ml-[27px]"><nuxt-link to="/">صفحه اصلی</nuxt-link></li>
               <li class="block ml-[27px]">
-                <a href="product/product-ordable">پرداخت ارزی آنلاین</a>
+                <nuxt-link to="/product/product-ordable">پرداخت ارزی آنلاین</nuxt-link>
               </li>
               <li class="block ml-[27px]">
-                <a href="blog/">مجله پارسی گیفت</a>
+                <nuxt-link to="/news">مجله پارسی گیفت</nuxt-link>
               </li>
-              <li class="block ml-[27px]"><a href="faq">سوالات متداول</a></li>
-              <li class="block ml-[27px]"><a href="rulse">قوانین</a></li>
-              <li class="block ml-[27px]"><a href="contact">تماس با ما</a></li>
+              <li class="block ml-[27px]"><nuxt-link to="/faq">سوالات متداول</nuxt-link></li>
+              <li class="block ml-[27px]"><nuxt-link to="/contracts">قوانین خرید</nuxt-link></li>
+              <li class="block ml-[27px]"><nuxt-link to="/contactus">تماس با ما</nuxt-link></li>
+              <li class="block ml-[27px]"><nuxt-link to="/aboutus"> درباره ما</nuxt-link></li>
             </ul>
           </div>
         </div>
@@ -135,19 +136,18 @@
                   ><!--v-if-->
                 </div>
                 <div class="w-full justify-start flex">
-                  <button
-                    type="button"
+                  <nuxt-link
+                    to="/category"
                     class="flex items-center border p-3 rounded-lg"
                   >
                     <i class="fa fa-bars ml-2"></i>
                     <span>دسته محصولات</span>
-                    <i class="fa fa-chevron-down mr-2"></i>
-                  </button>
+                  </nuxt-link>
                 </div>
               </div>
 
               <div class="col-span-2">
-                <form class="w-full">
+                <form class="w-full" @submit.prevent="doSearchProduct()">
                   <label
                     for="default-search"
                     class="mb-2 text-sm font-medium text-gray-900 sr-only"
@@ -175,10 +175,11 @@
                     </div>
                     <input
                       type="search"
+                      v-model="searchValue"
                       id="default-search"
                       class="block w-full p-4 ps-10 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="جستجو در پارسی گیفت"
-                      required
+                      
                     />
                     <button
                       type="submit"
@@ -204,26 +205,46 @@
       <div class="right">
         <ul class="flex items-center gap-4">
           <li>
-            <button type="button" class="flex items-center text-2xl ml-4">
+            <button @click="mobileSideState = true" type="button" class="flex items-center text-2xl ml-4">
               <i class="fa fa-bars"></i>
             </button>
           </li>
-          <li>
-            <a class="flex items-center" href="https://t.me/" title="">
+          <li v-if="authUser == null">
+            <nuxt-link  class="flex items-center" to="/user/login" title="">
               <i class="fa fa-user ml-2"></i>
               <span>ورود</span>
-            </a>
+            </nuxt-link>
           </li>
-          <li>
-            <a
+          <li v-if="authUser == null">
+            <nuxt-link
               class="flex items-center"
-              href="https://www.instagram.com/"
+              to="/user/register"
               title=""
             >
               <i class="fa fa-user-plus ml-2"></i>
               <span>ثبت نام</span>
-            </a>
+            </nuxt-link>
           </li>
+
+          <a href="javascript:void(0)" @click="isShowDropDown = !isShowDropDown"  v-if="authUser != null" class="relative flex items-center bg-gradient-to-r from-cyan-500 to-blue-500 px-4 py-2 rounded-lg text-white hover:bg-cyan-600">
+            <i class="fa fa-user ml-2"></i>
+            <span>{{ authUser.name }}</span>
+
+            <ul 
+            :class="isShowDropDown == true ? '' : 'hidden'"
+            class="absolute text-gray-500 top-[50px] z-[1000] right-0 w-[200px] h-auto rounded-lg shadow-lg bg-white">
+                <li class="w-full px-3 py-3 cursor-pointer hover:bg-gray-50 border-b font-normal">
+                    <nuxt-link to="/user/dashboard">
+                      <i class="fa fa-user ml-2 text-hamian"></i> مدیریت حساب
+                    </nuxt-link>
+                </li>
+                <li
+                @click="doSignOut()"
+                class="w-full px-3 py-3 cursor-pointer hover:bg-gray-50 font-normal">
+                    <i class="fa fa-sign-out-alt ml-2 text-hamian"></i>خروج از حساب
+                </li>
+            </ul>
+          </a>
         </ul>
       </div>
       <div class="logo">
@@ -232,17 +253,13 @@
     </div>
 
     <div class="flex items-center justify-between px-4 py-4 bg-gray-100 gap-8">
-      <div class="dark-light flex items-center justify-center">
-        <button type="button"><i class="fa fa-moon text-2xl"></i></button>
-      </div>
 
       <div class="search w-full">
-        <form class="w-full mx-auto">
+        <form class="w-full mx-auto" @submit.prevent="doSearchProduct()">
           <label
             for="default-search"
             class="mb-2 text-sm font-medium text-gray-900 sr-only"
-            >جستجو</label
-          >
+          >جستجو</label>
           <div class="relative">
             <div
               class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
@@ -268,7 +285,7 @@
               id="default-search"
               class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
               placeholder="جستجو در پارسی گیفت"
-              required
+              v-model="searchValue"
             />
             <button
               type="submit"
@@ -282,10 +299,12 @@
     </div>
   </section>
 
-  <section class="mobile-side hidden">
-    <div class="h-screen w-full fixed right-0 top-0 z-[999]">
-      <div class="backdrop bg-gray-100/50 w-full h-screen"></div>
-      <div class="close absolute left-2 top-4">
+  <section class="mobile-side lg:hidden">
+    <div 
+    :class="mobileSideState == false ? 'right-[-1500px]' : 'right-0'"
+    class="h-screen w-full fixed transition-all ease-in-out delay-0 duration-500 top-0 z-[999]">
+      <div @click="mobileSideState = false" class="backdrop bg-gray-100/50 w-full h-screen"></div>
+      <div @click="mobileSideState = false" class="close absolute left-2 top-4">
         <i class="fa fa-times text-2xl bg-white p-2 rounded-lg"></i>
       </div>
       <div
@@ -295,13 +314,27 @@
           <img src="assets/images/logo.svg" class="max-w-20 mx-auto py-8" />
         </div>
         <ul class="flex flex-col space-y-6 p-4 font-semibold text-gray-700">
-          <li>خانه</li>
-          <li>خدمات پارسی گیفت</li>
-          <li>خرید از گوگل پلی</li>
-          <li>پرداخت ارزی آنلاین</li>
-          <li>سوالات متداول</li>
-          <li>قوانین</li>
-          <li>تماس با ما</li>
+          <li @click="mobileSideState = false">
+            <nuxt-link to="/" class="block w-full">خانه</nuxt-link>
+          </li>
+          <li @click="mobileSideState = false">
+            <nuxt-link to="/news" class="block w-full"> مجله پارسی گیفت</nuxt-link>
+          </li>
+          <li @click="mobileSideState = false">
+            <nuxt-link to="/product/product-ordable" class="block w-full"> پرداخت ارزی آنلاین</nuxt-link>
+          </li>
+          <li @click="mobileSideState = false">
+            <nuxt-link to="/faqs" class="block w-full">سوالات متداول</nuxt-link>
+          </li>
+          <li @click="mobileSideState = false">
+            <nuxt-link to="/cotracts" class="block w-full">قوانین خرید </nuxt-link>
+          </li>
+          <li @click="mobileSideState = false">
+            <nuxt-link to="/contactus" class="block w-full">تماس با ما</nuxt-link>
+          </li>
+          <li @click="mobileSideState = false">
+            <nuxt-link to="/aboutus" class="block w-full">درباره ما</nuxt-link>
+          </li>
         </ul>
       </div>
     </div>
@@ -311,12 +344,15 @@
 <script setup>
 import { useParsgiftStore } from "~/store/parsiStore";
 import { storeToRefs } from 'pinia';
+import {useRouter} from 'vue-router'
 
+const router = useRouter()
 const { $swal } = useNuxtApp()
 const isShowDropDown = ref(false)
 const parsiStore = useParsgiftStore()
 const {authUser} = storeToRefs(parsiStore)
-
+const mobileSideState = ref(false)
+const searchValue = ref(null)
 const props = defineProps({
   initData: {
     required: true,
@@ -338,6 +374,7 @@ const doSignOut = async () => {
         if (result.isConfirmed) {
             const result = await parsiStore.logout_user()
             if(result.status == 200){
+                router.push("/")
                 showSwal("پیغام موفقیت آمیز" , "خروج از حساب با موفقیت انجام شد" , "success")
             }else{
                 showSwal("پیغام خطا" , result.message , "error")
@@ -346,7 +383,23 @@ const doSignOut = async () => {
     });
 }
 
-// onMounted(() => {
-//   console.log(props.initData)
-// })
+const showSwal = (title , text , icon) => {
+        $swal.fire({
+            title: title,
+            text: text,
+            icon: icon
+        });
+}
+
+const doSearchProduct = () => {
+  if(searchValue.value != null) {
+
+    router.push(`/search?query=${searchValue.value}`)
+    searchValue.value = null
+  }else {
+    showSwal("خطایی رخ داد" , "لطفا عنوان محصول مورد نظر خود را وارد کنید", "error");
+  }
+}
+
+
 </script>

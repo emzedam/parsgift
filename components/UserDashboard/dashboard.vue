@@ -1,6 +1,6 @@
 <template>
   <div class="grid grid-cols-12 gap-4 my-4">
-    <div class="col-span-3">
+    <div class="col-span-12 lg:col-span-3">
       <div class="box profile border rounded-lg pt-8">
         <div
           class="avatar max-w-14 mx-auto flex justify-center items-center w-full"
@@ -82,7 +82,7 @@
         </ul>
       </div>
     </div>
-    <div class="col-span-9">
+    <div class="col-span-12 lg:col-span-9">
       <section class="TAB-1 p-4 border rounded-lg font-iransans ">
         <div class="grid lg:grid-cols-3 gap-4">
           <div class="flex items-center border p-4 rounded-lg justify-between">

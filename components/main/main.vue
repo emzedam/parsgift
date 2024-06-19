@@ -186,7 +186,7 @@
                             :to="`/product/${vitrin.id}/${product.fa_title.replace(' ' , '-')}-${product.id}`"
                             class="rounded-lg h-full overflow-hidden relative">
                                 <figure class="rounded-lg h-full">
-                                    <img class="rounded-t-lg h-full" :src="`${appBaseUrl}/storage/product/${product.index_image}`" alt="خرید گیفت کارت آیتونز">
+                                    <img class="rounded-t-lg h-full" :src="`${appBaseUrl}/storage/product/${product.index_image}`" :alt="product.fa_title">
                                 </figure>
                                 <header class="p-3 text-gray-700 text-center w-full">
                                     <h2 class="text-lg font-semibold mb-2 w-full border-b pb-2 border-red-500">{{ product.fa_title }}</h2>
@@ -197,7 +197,6 @@
                                 </header>
                             </nuxt-link>
                         </swiper-slide>
-        
                     </swiper>
                 </template>
                 <!-- categories -->
@@ -240,7 +239,6 @@
                     </a>
                 </div>
             </div>
-    
         </section>
     
     
@@ -257,18 +255,21 @@
                     </h2>
     
     
-                    <a href="" title=" خریدبازیهای-موبایلی" class="product__header-more !font-semibold">
+                    <nuxt-link to="/news" title=" خریدبازیهای-موبایلی" class="product__header-more !font-semibold">
                             مشاهده آرشیو
                             <i class="fa fa-chevron-left"></i>
-                        </a>
+                        </nuxt-link>
                 </div>
     
                 <swiper class="relative  w-full" :modules="modules" :space-between="6" :breakpoints="{ 600: { slidesPerView: 2 },400: { slidesPerView: 1 }, 900: { slidesPerView: 3, }, }">
                     <swiper-slide v-for="(news , index) in initData.newsList" :key="news.id" class="rounded-lg h-full border">
     
-                        <article class="rounded-lg h-full">
+                        <nuxt-link
+                        :to="`/news/${news.slug}-${news.id}`"
+                        :title="news.title"
+                        class="rounded-lg h-full">
                             <figure class="rounded-lg h-full">
-                                <img class="rounded-t-lg h-[280px] w-full object-cover" :src="`${appBaseUrl}/storage/news/${news.image}`" :alt="news.title">
+                                <img class="rounded-t-lg h-[280px] w-full object-cover" :src="`${appBaseUrl}/storage/news/${news.image}`" :title="news.title" :alt="news.title">
                             </figure>
                             <header class="p-3 text-gray-700  w-full">
                                 <h5 class="font-semibold text-xl text-right py-3 truncate"> {{ news.title }} </h5>
@@ -283,7 +284,7 @@
                                 </div>
                             </header>
     
-                        </article>
+                        </nuxt-link>
                     </swiper-slide>
     
                 </swiper>

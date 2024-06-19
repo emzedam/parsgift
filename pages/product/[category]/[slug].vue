@@ -38,10 +38,10 @@ const getProductData = async (id) => {
 }
 
 const slug = route.params.slug
-  const splitSlug = slug.split('-')
-  if(splitSlug[splitSlug.length - 1] > 0) {
-    getProductData(splitSlug[splitSlug.length - 1])
-  }else {
-    router.push("/")
-  }
+const splitSlug = slug.split('-')
+if(splitSlug[splitSlug.length - 1] > 0) {
+  getProductData(splitSlug[splitSlug.length - 1])
+}else {
+  router.push("/")
+}
 </script>
