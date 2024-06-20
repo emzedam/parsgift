@@ -31,7 +31,8 @@ async function fetchInitData() {
   const userJson = data.value
   if(userJson.status == 200) {
     parsiStore.$patch({
-      initData: userJson.result
+      initData: userJson.result,
+      basketCount: userJson.result.basket_count
     })
     setTimeout(() => {
       globalLoading.value = false

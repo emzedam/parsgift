@@ -130,7 +130,7 @@
                       <i class="text-2xl fa-light fa-bag-shopping"></i
                       ><span
                         class="flex justify-center absolute -top-2 ltr:-right-1 rtl:-left-1 text-center bg-pink-500 px-1 text-white rounded-full text-xs"
-                        ><span class="align-self-center">3</span></span
+                        ><span class="align-self-center">{{ basketCount }}</span></span
                       >
                     </div></a
                   ><!--v-if-->
@@ -327,7 +327,7 @@
             <nuxt-link to="/faqs" class="block w-full">سوالات متداول</nuxt-link>
           </li>
           <li @click="mobileSideState = false">
-            <nuxt-link to="/cotracts" class="block w-full">قوانین خرید </nuxt-link>
+            <nuxt-link to="/contracts" class="block w-full">قوانین خرید </nuxt-link>
           </li>
           <li @click="mobileSideState = false">
             <nuxt-link to="/contactus" class="block w-full">تماس با ما</nuxt-link>
@@ -350,7 +350,7 @@ const router = useRouter()
 const { $swal } = useNuxtApp()
 const isShowDropDown = ref(false)
 const parsiStore = useParsgiftStore()
-const {authUser} = storeToRefs(parsiStore)
+const {authUser , basketCount} = storeToRefs(parsiStore)
 const mobileSideState = ref(false)
 const searchValue = ref(null)
 const props = defineProps({

@@ -106,7 +106,7 @@
           </button>
 
           <button
-           v-if="productData.accounts.length != 0"
+           v-if="productData.accounts.length != 0 && authUser != null"
             type="button"
             class="border p-4 rounded-lg flex items-center lg:w-2/4 w-full justify-between"
           >
@@ -149,20 +149,38 @@
           </div>
 
           <div class="flex items-center">
-            <!-- <button
+            <nuxt-link
+              to="/user/login"
+              v-if="authUser == null"
               type="button"
               class="bg-red-500 px-4 py-4 rounded-lg text-white"
             >
               <i class="fa fa-user pl-2"></i>
               <span> برای خرید وارد شوید</span>
-            </button> -->
+            </nuxt-link>
 
             <button
               type="button"
+              @click="addProductToBasket()"
+              v-if="authUser != null && isProductInBasket == false"
               class="bg-blue-500 px-4 py-4 rounded-lg text-white"
             >
-              <i class="fa-solid fa-bag-shopping pl-2"></i>
-              <span>افزودن به سبد خرید</span>
+              <i v-if="addToBasketLoading == false" class="fa-solid fa-bag-shopping pl-2"></i>
+              <span v-if="addToBasketLoading == false">افزودن به سبد خرید</span>
+              <div class="lds-ring ml-2" v-if="addToBasketLoading == true"><div></div><div></div><div></div><div></div></div>
+              <span v-if="addToBasketLoading == true">در حال افزودن</span>
+            </button>
+
+            <button
+              type="button"
+              @click="deleteProductFromBasket()"
+              v-if="authUser != null && isProductInBasket == true"
+              class="bg-red-500 shadow-lg px-4 py-4 rounded-lg text-white"
+            >
+              <i v-if="addToBasketLoading == false" class="fa-solid fa-trash pl-2"></i>
+              <span v-if="addToBasketLoading == false">حذف از سبد </span>
+              <div class="lds-ring ml-2" v-if="addToBasketLoading == true"><div></div><div></div><div></div><div></div></div>
+              <span v-if="addToBasketLoading == true">در حال حذف</span>
             </button>
           </div>
         </div>
@@ -253,7 +271,15 @@ import ProductImages from './singleSections/ProductImages.vue'
 import AccountModal from './modals/AccountModal.vue'
 import PropertyModal from './modals/PropertyModal.vue'
 
+import {useParsgiftStore} from '@/store/parsiStore.js'
+import {storeToRefs} from 'pinia'
 
+const parsiStore = useParsgiftStore()
+const {authUser} = storeToRefs(parsiStore)
+const addToBasketLoading = ref(false)
+const isProductInBasket = ref(false)
+
+const { $swal } = useNuxtApp()
 const activeTab = ref(0)
 const propertyModalState = ref(false)
 const { appBaseUrl } = useRuntimeConfig().public
@@ -269,7 +295,158 @@ const selected_attribute = ref(null)
 
 onMounted(() => {
   selected_attribute.value = props.productData.attributes[0]
+
+  isExistProductInBasket()
+})
+
+watch(selected_attribute , (newVal , oldVal) => {
+  isExistProductInBasket()
 })
 
 
+const addProductToBasket = async () => {
+  addToBasketLoading.value = true
+
+  let data = {
+    count: 1,
+  }
+
+  if(props.productData) {
+    if(props.productData.has_property == 1) {
+      data.price = selected_attribute.value.price,
+      data.attribute_id = selected_attribute.value.attribute_id,
+      data.product_id = selected_attribute.value.product_id
+    }else {
+      data.price = props.productData.price,
+      data.attribute_id = 0,
+      data.product_id = props.productData.id
+    }
+  }
+  const result = await parsiStore.addProductToBasket(data)
+  if(result.status == 200) {
+    addToBasketLoading.value = false
+    isProductInBasket.value = true
+
+    parsiStore.$patch({
+      basketCount: result.basket_count
+    })
+  }
+}
+
+const deleteProductFromBasket = async () => {
+  $swal.fire({
+        title: "هشدار",
+        text: "آیا از حدف این محصول از سبد خرید مطمعنید؟",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#9d2c48",
+        cancelButtonColor: "#555",
+        cancelButtonText: "خیر",
+        confirmButtonText: "بله",
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+
+          addToBasketLoading.value = true
+        
+          let attributeId = 0;
+          let productId = 0;
+          if(props.productData) {
+            if(props.productData.has_property == 1){
+              attributeId = selected_attribute.value.attribute_id
+              productId   = selected_attribute.value.product_id
+            }else {
+              productId = props.productData.id
+            }
+          }
+        
+          const result = await parsiStore.removeProductFromBasket({
+            product_id: productId,
+            attribute_id: attributeId 
+          })
+        
+          if(result != false && result.status == 200) {
+            addToBasketLoading.value = false
+            isProductInBasket.value = false
+
+            parsiStore.$patch({
+              basketCount: result.basket_count
+            })
+          }
+            
+        }
+    });
+
+}
+
+
+const isExistProductInBasket = async () => {
+  let attributeId = 0;
+  let productId = 0;
+  if(props.productData) {
+    if(props.productData.has_property == 1){
+      attributeId = selected_attribute.value.attribute_id
+      productId   = selected_attribute.value.product_id
+    }else {
+      productId = props.productData.id
+    }
+  }
+
+  const result = await parsiStore.isProductInBasket({
+    product_id: productId,
+    attribute_id: attributeId 
+  })
+
+  if(result != false && result.status == 200) {
+    if(result.exist == true) {
+      isProductInBasket.value = true
+    }else {
+      isProductInBasket.value = false
+    }
+  }
+}
+
 </script>
+<style>
+  .lds-ring {
+    /* change color here */
+    color: #1c4c5b
+  }
+  .lds-ring,
+  .lds-ring div {
+    box-sizing: border-box;
+  }
+  .lds-ring {
+    display: inline-block;
+    position: relative;
+    width: 18px;
+    height: 18px;
+  }
+  .lds-ring div {
+    box-sizing: border-box;
+      display: block;
+      position: absolute;
+      width: 23px;
+      height: 23px;
+      border: 3px solid currentColor;
+      border-radius: 50%;
+      animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+      border-color: #fff transparent transparent transparent;
+  }
+  .lds-ring div:nth-child(1) {
+    animation-delay: -0.45s;
+  }
+  .lds-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+  }
+  .lds-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+  }
+  @keyframes lds-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  </style>

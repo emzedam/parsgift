@@ -6,7 +6,8 @@ const cookies = process.client == true ? useCookies().cookies : null;
 const state = () => ({
     authUser: null,
     globalLoading: true,
-    initData: null
+    initData: null,
+    basketCount: 0
 })
 
 const actions = {
@@ -149,14 +150,80 @@ const actions = {
                     return result.data
                 }
             }catch(err) {
-                cookies.remove("_sToken" , {path: "/"})
+                cookies.remove("_uToken" , {path: "/"})
                 this.authUser = null
             }
         }else{
             this.authUser = null
         }
     },
-    // user
+    
+    // single page
+    async isProductInBasket(data) {
+        let token = cookies.get("_uToken") || "";
+        console.log(token)
+        if(token != ""){
+            try {
+                const result = await api.post("/parsgift/basket/is-exist" , data , {
+                    headers: {
+                        Authorization:`Bearer ${token}`
+                    }
+                })
+
+                if(result.status == 200){
+                    return result.data
+                }
+            }catch(err) {
+                return false
+            }
+        }else{
+            return false
+        }
+    } ,
+
+    async addProductToBasket(data) {
+        let token = cookies.get("_uToken") || "";
+        console.log(token)
+        if(token != ""){
+            try {
+                const result = await api.post("/parsgift/basket/add-to-basket" , data , {
+                    headers: {
+                        Authorization:`Bearer ${token}`
+                    }
+                })
+
+                if(result.status == 200){
+                    return result.data
+                }
+            }catch(err) {
+                return false
+            }
+        }else{
+            return false
+        }
+    } ,
+
+    async removeProductFromBasket(data) {
+        let token = cookies.get("_uToken") || "";
+        console.log(token)
+        if(token != ""){
+            try {
+                const result = await api.post("/parsgift/basket/remove-from-basket" , data , {
+                    headers: {
+                        Authorization:`Bearer ${token}`
+                    }
+                })
+
+                if(result.status == 200){
+                    return result.data
+                }
+            }catch(err) {
+                return false
+            }
+        }else{
+            return false
+        }
+    }
 }
 
 const getters = {}
