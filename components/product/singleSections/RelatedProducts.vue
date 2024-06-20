@@ -8,150 +8,33 @@
         </div>
     
         <swiper
+          v-if="relatedProducts.length != 0"
           class="relative w-full"
           :modules="modules"
           :slides-per-view="3"
           :space-between="6"
           :breakpoints="{ 600: { slidesPerView: 2 }, 900: { slidesPerView: 4 } }"
         >
-          <swiper-slide class="rounded-lg h-full border">
-            <article class="rounded-lg h-full">
+          <swiper-slide class="rounded-lg h-full border"
+          v-for="(product , index) in relatedProducts" :key="product.id"
+          >
+            <nuxt-link 
+            :to="`/product/${product.categories.ids[0]}/${product.fa_title.replace(' ' , '-')}-${product.id}`" class="rounded-lg h-full">
               <figure class="rounded-lg h-full">
                 <img
                   class="rounded-t-lg h-full"
-                  src="@/assets/images/play.webp"
-                  alt="خرید گیفت کارت آیتونز"
+                  :src="`${appBaseUrl}/storage/product/${product.index_image}`" :alt="product.fa_title"
                 />
               </figure>
               <header class="p-3 text-gray-700 text-center w-full">
                 <h2
                   class="text-lg font-semibold mb-2 w-full border-b pb-2 border-red-500"
                 >
-                  آیتونز
+                  {{ product.fa_title }}
                 </h2>
-                <span class="text-lg font-semibold mb-8 w-full">iTunes</span>
+                <span class="text-lg font-semibold mb-8 w-full">{{ product.en_title }}</span>
               </header>
-            </article>
-          </swiper-slide>
-    
-          <swiper-slide class="rounded-lg h-full border">
-            <article class="rounded-lg h-full">
-              <figure class="rounded-lg h-full">
-                <img
-                  class="rounded-t-lg h-full"
-                  src="@/assets/images/play.webp"
-                  alt="خرید گیفت کارت آیتونز"
-                />
-              </figure>
-              <header class="p-3 text-gray-700 text-center w-full">
-                <h2
-                  class="text-lg font-semibold mb-2 w-full border-b pb-2 border-red-500"
-                >
-                  آیتونز
-                </h2>
-                <span class="text-lg font-semibold mb-8 w-full">iTunes</span>
-              </header>
-            </article>
-          </swiper-slide>
-    
-          <swiper-slide class="rounded-lg h-full border">
-            <article class="rounded-lg h-full">
-              <figure class="rounded-lg h-full">
-                <img
-                  class="rounded-t-lg h-full"
-                  src="@/assets/images/play.webp"
-                  alt="خرید گیفت کارت آیتونز"
-                />
-              </figure>
-              <header class="p-3 text-gray-700 text-center w-full">
-                <h2
-                  class="text-lg font-semibold mb-2 w-full border-b pb-2 border-red-500"
-                >
-                  آیتونز
-                </h2>
-                <span class="text-lg font-semibold mb-8 w-full">iTunes</span>
-              </header>
-            </article>
-          </swiper-slide>
-    
-          <swiper-slide class="rounded-lg h-full border">
-            <article class="rounded-lg h-full">
-              <figure class="rounded-lg h-full">
-                <img
-                  class="rounded-t-lg h-full"
-                  src="@/assets/images/play.webp"
-                  alt="خرید گیفت کارت آیتونز"
-                />
-              </figure>
-              <header class="p-3 text-gray-700 text-center w-full">
-                <h2
-                  class="text-lg font-semibold mb-2 w-full border-b pb-2 border-red-500"
-                >
-                  آیتونز
-                </h2>
-                <span class="text-lg font-semibold mb-8 w-full">iTunes</span>
-              </header>
-            </article>
-          </swiper-slide>
-    
-          <swiper-slide class="rounded-lg h-full border">
-            <article class="rounded-lg h-full">
-              <figure class="rounded-lg h-full">
-                <img
-                  class="rounded-t-lg h-full"
-                  src="@/assets/images/play.webp"
-                  alt="خرید گیفت کارت آیتونز"
-                />
-              </figure>
-              <header class="p-3 text-gray-700 text-center w-full">
-                <h2
-                  class="text-lg font-semibold mb-2 w-full border-b pb-2 border-red-500"
-                >
-                  آیتونز
-                </h2>
-                <span class="text-lg font-semibold mb-8 w-full">iTunes</span>
-              </header>
-            </article>
-          </swiper-slide>
-    
-          <swiper-slide class="rounded-lg h-full border">
-            <article class="rounded-lg h-full">
-              <figure class="rounded-lg h-full">
-                <img
-                  class="rounded-t-lg h-full"
-                  src="@/assets/images/play.webp"
-                  alt="خرید گیفت کارت آیتونز"
-                />
-              </figure>
-              <header class="p-3 text-gray-700 text-center w-full">
-                <h2
-                  class="text-lg font-semibold mb-2 w-full border-b pb-2 border-red-500"
-                >
-                  آیتونز
-                </h2>
-                <span class="text-lg font-semibold mb-8 w-full">iTunes</span>
-              </header>
-            </article>
-          </swiper-slide>
-    
-          <swiper-slide class="rounded-lg h-full border">
-            <article class="rounded-lg h-full">
-              <figure class="rounded-lg h-full">
-                <img
-                  class="rounded-t-lg h-full"
-                  src="@/assets/images/play.webp"
-                  alt="خرید گیفت کارت آیتونز"
-                />
-              </figure>
-              <header class="p-3 text-gray-700 text-center w-full">
-                <h2
-                  class="text-lg font-semibold mb-2 w-full border-b pb-2 border-red-500"
-                >
-                  آیتونز
-                </h2>
-                <span class="text-lg font-semibold mb-8 w-full">iTunes</span>
-              </header>
-            </article>
+            </nuxt-link>
           </swiper-slide>
         </swiper>
       </section>
@@ -168,15 +51,22 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 import "swiper/css/navigation";
 
-
+const { appBaseUrl } = useRuntimeConfig().public
 const onSwiper = (swiper) => {
   console.log(swiper);
 }
 
 const onSlideChange = () => {
-  console.log("slide change");
+  // console.log("slide change");
 }
 
 const modules = [Navigation, A11y]
+
+const props = defineProps({
+  relatedProducts: {
+    requiired: true,
+    type: [Array , Object]
+  }
+})
 
 </script>

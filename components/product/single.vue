@@ -76,7 +76,13 @@
       <div class="lg:col-span-1 border p-4 rounded-lg overflow-hidden relative">
         <img
           class="rounded-lg"
+          v-if="productData.has_property == 0"
           :src="`${appBaseUrl}/storage/product/${productData.index_image}`"
+        />
+        <img
+          class="rounded-lg"
+          v-if="productData.has_property != 0 && selected_attribute != null"
+          :src="`${appBaseUrl}/storage/product/properties/${selected_attribute.image}`"
         />
       </div>
       <div class="lg:col-span-2 border p-4 rounded-lg font-iransans py-8">
@@ -170,7 +176,6 @@
           </div>
           <ul v-html="productData.summary_description" class="flex flex-col space-y-4 bg-gray-100 p-4 rounded-b-lg">
           </ul>
-        
         </div>
       </div>
     </div>
@@ -217,7 +222,9 @@
     :galleries="productData.gallery"
   />
 
-  <RelatedProducts />
+  <RelatedProducts
+    :relatedProducts="productData.related_products"
+  />
 
   
   <!-- انتخاب ویزگی مدال -->

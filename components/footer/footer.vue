@@ -7,12 +7,24 @@
         <div class="menu-nav flex items-center">
           <nav class="flex items-center">
             <ul class="flex gap-4 items-center font-semibold">
-              <li class="flex items-center">خانه</li>
-              <li class="flex items-center">قوانین خرید</li>
-              <li class="flex items-center">سوالات متداول</li>
-              <li class="flex items-center">مجله پارسی گیفت</li>
-              <li class="flex items-center">تماس با ما</li>
-               <li class="flex items-center"> درباره ما</li>
+              <li class="flex items-center">
+                <nuxt-link to="/">خانه</nuxt-link>
+              </li>
+              <li class="flex items-center">
+                <nuxt-link to="/contracts">قوانین خرید</nuxt-link>
+              </li>
+              <li class="flex items-center">
+                <nuxt-link to="/faq">سوالات متداول</nuxt-link>
+              </li>
+              <li class="flex items-center">
+                <nuxt-link to="/news">مجله پارسی گیفت</nuxt-link>
+              </li>
+              <li class="flex items-center">
+                <nuxt-link to="/contactus">تماس با ما</nuxt-link>
+              </li>
+              <li class="flex items-center">
+                <nuxt-link to="/aboutus">درباره ما</nuxt-link>
+              </li>
             </ul>
           </nav>
         </div>
