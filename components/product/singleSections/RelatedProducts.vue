@@ -53,7 +53,7 @@ import "swiper/css/navigation";
 
 const { appBaseUrl } = useRuntimeConfig().public
 const onSwiper = (swiper) => {
-  console.log(swiper);
+  
 }
 
 const onSlideChange = () => {

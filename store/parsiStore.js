@@ -147,6 +147,7 @@ const actions = {
                 if(result.status == 200){
                     cookies.remove("_uToken" , {path: "/"})
                     this.authUser = null
+                    this.basketCount = 0
                     return result.data
                 }
             }catch(err) {
@@ -179,7 +180,7 @@ const actions = {
         }else{
             return false
         }
-    } ,
+    },
 
     async addProductToBasket(data) {
         let token = cookies.get("_uToken") || "";
@@ -201,14 +202,34 @@ const actions = {
         }else{
             return false
         }
-    } ,
+    },
 
     async removeProductFromBasket(data) {
         let token = cookies.get("_uToken") || "";
-        console.log(token)
         if(token != ""){
             try {
                 const result = await api.post("/parsgift/basket/remove-from-basket" , data , {
+                    headers: {
+                        Authorization:`Bearer ${token}`
+                    }
+                })
+
+                if(result.status == 200){
+                    return result.data
+                }
+            }catch(err) {
+                return false
+            }
+        }else{
+            return false
+        }
+    },
+
+    async getBasketProducts() {
+        let token = cookies.get("_uToken") || "";
+        if(token != ""){
+            try {
+                const result = await api.get("/parsgift/basket/get-basket" , {
                     headers: {
                         Authorization:`Bearer ${token}`
                     }

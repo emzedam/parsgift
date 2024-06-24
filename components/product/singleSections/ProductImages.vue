@@ -58,11 +58,11 @@ const props = defineProps({
 })
 
 const onSwiper = (swiper) => {
-  console.log(swiper);
+
 }
 
 const onSlideChange = () => {
-  console.log("slide change");
+
 }
 
 const modules = [Navigation, A11y]

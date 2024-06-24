@@ -5,8 +5,8 @@
               class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse"
             >
               <li class="inline-flex items-center">
-                <a
-                  href="#"
+                <nuxt-link
+                  to="/"
                   class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white"
                 >
                   <svg
@@ -21,7 +21,7 @@
                     />
                   </svg>
                   خانه
-                </a>
+                </nuxt-link>
               </li>
               <li>
                 <div class="flex items-center">
@@ -41,22 +41,26 @@
                     />
                   </svg>
                   <a
-                    href="#"
+                    href="javascript:void(0)"
                     class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white"
-                    >گیفت کارتها</a
-                  >
+                  >سبد خرید</a>
                 </div>
               </li>
             </ol>
           </nav>
-    <div class="grid lg:grid-cols-3 gap-x-4">
+    <div class="grid lg:grid-cols-3 gap-x-4" v-if="basketList.length != 0">
       <div class="right lg:col-span-2 col-span-3 lg:mb-0 mb-4">
         <ul class="space-y-4">
-          <li class="flex">
+          <li class="flex" v-for="(basket , index) in basketList" :key="index">
             <div class="flex-shrink-0 p-4 border rounded-lg">
               <img
-                src="https://tailwindui.com/img/ecommerce-images/checkout-page-03-product-04.jpg"
-                alt=""
+                v-if="basket.attribute_id != 0"
+                :src="`${appBaseUrl}/storage/product/properties/${basket.product_attribute.image}`"
+                class="h-24 w-24 object-cover object-center sm:h-32 sm:w-32 rounded-lg"
+              />
+              <img
+                v-else
+                :src="`${appBaseUrl}/storage/product/${basket.product.index_image}`"
                 class="h-24 w-24 object-cover object-center sm:h-32 sm:w-32 rounded-lg"
               />
             </div>
@@ -71,11 +75,19 @@
                       href="#"
                       class="font-medium text-gray-700 hover:text-gray-800"
                     >
-                           <div class="flex justify-between items-center py-4"><span>نام محصول:</span><strong>گیفت کارت 5 دلاری استیم</strong></div></a
-                    >
+                      <div class="flex justify-between items-center py-4"><span>نام محصول:</span>
+                        <strong>
+                          {{ basket.attribute_id != 0 ? basket.product_attribute.title : basket.product.fa_title }}
+                        </strong>
+                      </div>
+                    </a>
                   </h4>
                   <p class="ml-4 text-sm font-medium text-gray-900">
-                  <div class="flex justify-between items-center py-4"><span>قیمت:</span><strong>534,750 تومان </strong></div>
+                    <div class="flex justify-between items-center py-4"><span>قیمت:</span>
+                      <strong>
+                        {{ basket.attribute_id != 0 ? basket.product_attribute.price : basket.product.price }} ریال
+                      </strong>
+                    </div>
                   </p>
                 </div>
             
@@ -84,48 +96,7 @@
               <div class="absolute bottom-0 left-0">
             
                   <button
-                    type="button"
-                    class="text-sm font-medium text-red-600 hover:text-red-500 bg-gray-100 lg:px-4 lg:py-2 p-1 rounded-tr-lg"
-                  >
-                  <i class="fa fa-trash-can"></i>
-                    <span class="pr-2 hidden ">حذف</span>
-                  </button>
-               
-              </div>
-            </div>
-          </li>
-             <li class="flex">
-            <div class="flex-shrink-0 p-4 border rounded-lg">
-              <img
-                src="https://tailwindui.com/img/ecommerce-images/checkout-page-03-product-04.jpg"
-                alt=""
-                class="h-24 w-24 object-cover object-center sm:h-32 sm:w-32 rounded-lg"
-              />
-            </div>
-
-            <div
-              class="mr-4 flex flex-1 flex-col sm:mr-6 px-4 border rounded-lg relative overflow-hidden"
-            >
-              <div>
-                <div class="block ">
-                  <h4 class="text-sm">
-                    <a
-                      href="#"
-                      class="font-medium text-gray-700 hover:text-gray-800"
-                    >
-                           <div class="flex justify-between items-center py-4"><span>نام محصول:</span><strong>گیفت کارت 5 دلاری استیم</strong></div></a
-                    >
-                  </h4>
-                  <p class="ml-4 text-sm font-medium text-gray-900">
-                  <div class="flex justify-between items-center py-4"><span>قیمت:</span><strong>534,750 تومان </strong></div>
-                  </p>
-                </div>
-            
-              </div>
-
-              <div class="absolute bottom-0 left-0">
-            
-                  <button
+                    @click="removeFromBasket(basket , index)"
                     type="button"
                     class="text-sm font-medium text-red-600 hover:text-red-500 bg-gray-100 lg:px-4 lg:py-2 p-1 rounded-tr-lg"
                   >
@@ -142,22 +113,22 @@
         <div class="mb-4 border rounded-lg">
           <ul class="divide-y">
             <li class="flex justify-between items-center p-4">
-              <span>تعداد محصولات </span><strong>1</strong>
+              <span>تعداد محصولات </span><strong>{{ basketList.length }}</strong>
             </li>
             <li class="flex justify-between items-center p-4">
-              <span>قیمت</span><strong>534,750 تومان </strong>
+              <span>قیمت</span><strong>{{ totalPrice }} ریال</strong>
             </li>
-            <li class="flex justify-between items-center p-4">
+            <li class="flex justify-between items-center p-4 hidden">
               <span class="text-red-500"> تخفیف</span><strong>0</strong>
             </li>
             <li class="flex justify-between items-center p-4">
               <span> مبلغ قابل پرداخت</span
-              ><strong class="text-red-500">4,266,304تومان</strong>
+              ><strong class="text-red-500">{{ totalPrice }} ریال</strong>
             </li>
           </ul>
         </div>
         <div>
-          <div class="relative mt-1 rounded-lg">
+          <div class="relative mt-1 rounded-lg hidden">
             <div
               class="cursor-pointer absolute inset-y-0 left-0 flex items-center pl-3 bg-green-500 rounded-l text-white"
             >
@@ -178,5 +149,57 @@
         <button type="button" class="flex justify-between items-center bg-green-500 w-full mt-4 p-4 text-white text-2xl font-semibold rounded-lg"><span>پرداخت</span><i class="fa fa-chevron-left"></i></button>
       </div>
     </div>
+    <div v-else class="w-full bg-gray-50 border border-1 border-gray-100 rounded-lg p-20 text-center">
+      سبد خرید شما خالی میباشد
+    </div>
   </div>
 </template>
+
+<script setup>
+  import { useParsgiftStore } from '~/store/parsiStore';
+
+  const { $swal } = useNuxtApp()
+  const parsiStore = useParsgiftStore()
+  const {appBaseUrl} = useRuntimeConfig().public
+  const props = defineProps({
+    basketList: {
+      required: true,
+      type: [Object , Array]
+    },
+    totalPrice: {
+      required: true,
+      type: Number
+    }
+  })
+
+  const emit = defineEmits(["spliceBasket"])
+
+  const removeFromBasket = async (basket , index) => {
+    $swal.fire({
+        title: "هشدار",
+        text: "آیا از حدف این محصول از سبد خرید مطمعنید؟",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#9d2c48",
+        cancelButtonColor: "#555",
+        cancelButtonText: "خیر",
+        confirmButtonText: "بله",
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+
+          const result = await parsiStore.removeProductFromBasket({
+            product_id: basket.product_id,
+            attribute_id: basket.attribute_id 
+          })
+        
+          if(result != false && result.status == 200) {
+            parsiStore.$patch({
+              basketCount: result.basket_count
+            })
+          }
+
+          emit("spliceBasket" , index)
+        }
+    });
+  }
+</script>

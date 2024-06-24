@@ -122,8 +122,8 @@
                 class="dark-light flex items-center justify-start gap-4 col-span-1"
               >
                 <div class="relative">
-                  <a
-                    href="javascript:;"
+                  <nuxt-link
+                    to="/basket"
                     class="py-3 px-4 flex text-sm rounded-full focus:outline-none"
                     id="messages"
                     ><div class="relative inline-block">
@@ -132,7 +132,7 @@
                         class="flex justify-center absolute -top-2 ltr:-right-1 rtl:-left-1 text-center bg-pink-500 px-1 text-white rounded-full text-xs"
                         ><span class="align-self-center">{{ basketCount }}</span></span
                       >
-                    </div></a
+                    </div></nuxt-link
                   ><!--v-if-->
                 </div>
                 <div class="w-full justify-start flex">
