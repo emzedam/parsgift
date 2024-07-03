@@ -106,12 +106,12 @@
           </button>
 
           <button
-           v-if="productData.accounts.length != 0 && authUser != null"
-           @click="accountModalState = true"
+            v-if="productData.accounts.length != 0 && authUser != null"
+            @click="accountModalState = true"
             type="button"
             class="border p-4 rounded-lg flex items-center lg:w-2/4 w-full justify-between"
           >
-            <span class="font-semibold"> انتخاب اکانت </span>
+            <span class="font-semibold"> {{ selectedAccount != "" ? selectedAccount.account.name : 'انتخاب اکانت' }} </span>
             <i class="fa fa-chevron-down pr-2"></i>
           </button>
         </div>
@@ -186,7 +186,7 @@
           </div>
         </div>
 
-        <div v-if="productData.summary_description != null || productData.summary_description != 'null'" class="relative overflow-hidden">
+        <div v-if="productData.summary_description != null && productData.summary_description != 'null'" class="relative overflow-hidden">
           <div
             class="bg-red-500 flex items-center w-full max-w-xs text-white p-4 rounded-t-lg"
           >
@@ -194,7 +194,7 @@
             نکات و توضیحات مختصر
           </div>
           <div 
-          v-if="productData.summary_description != 'null' && productData.summary_description != ''" 
+          
           v-html="productData.summary_description" class="flex flex-col space-y-4 bg-gray-100 p-4 rounded-b-lg">
           </div>
         </div>
@@ -261,9 +261,14 @@
 
   <!-- انتخاب اکانت مدال -->
   <AccountModal
-   :productData="productData"
-   :authUser="authUser"
-   v-if="accountModalState" />
+    :productData="productData"
+    :authUser="authUser"
+    v-if="accountModalState" 
+    @closeModal="accountModalState = false"
+    @selectAccount="(account) => selectAccount(account)"
+    :userSelectedAccount="selectedAccount"
+    @addUserAccount="(accounts) => addUserAccounts(accounts)"
+   />
   <!-- انتخاب اکانت مدال -->
 </template>
 
@@ -278,10 +283,10 @@ import AccountModal from './modals/AccountModal.vue'
 import PropertyModal from './modals/PropertyModal.vue'
 
 import {useParsgiftStore} from '@/store/parsiStore.js'
-import {storeToRefs} from 'pinia'
+import { storeToRefs } from 'pinia'
 
 const parsiStore = useParsgiftStore()
-const {authUser} = storeToRefs(parsiStore)
+const { authUser } = storeToRefs(parsiStore)
 const addToBasketLoading = ref(false)
 const isProductInBasket = ref(false)
 const accountModalState = ref(false)
@@ -299,10 +304,10 @@ const props = defineProps({
 })
 
 const selected_attribute = ref(null)
+const selectedAccount = ref("")
 
 onMounted(() => {
   selected_attribute.value = props.productData.attributes[0]
-  console.log(authUser.value)
   isExistProductInBasket()
 })
 
@@ -310,9 +315,16 @@ watch(selected_attribute , (newVal , oldVal) => {
   isExistProductInBasket()
 })
 
+const addUserAccounts = (accounts) => {
+  authUser.value.accounts = accounts
+}
+
+const selectAccount = (account) => {
+  selectedAccount.value = account
+}
 
 const addProductToBasket = async () => {
-  addToBasketLoading.value = true
+ 
 
   let data = {
     count: 1,
@@ -323,12 +335,27 @@ const addProductToBasket = async () => {
       data.price = selected_attribute.value.price,
       data.attribute_id = selected_attribute.value.attribute_id,
       data.product_id = selected_attribute.value.product_id
-    }else {
+    } else {
       data.price = props.productData.price,
       data.attribute_id = 0,
       data.product_id = props.productData.id
     }
+
+    if(props.productData.has_account == 1) {
+      data.account_id = selectedAccount.value.id
+    }else {
+      data.account_id = 0
+    }
   }
+
+  if(props.productData.has_account == 1) {
+    if(selectedAccount.value == "") {
+      showSwal("خطایی رخ داد" , "انتخاب اکانت الزامیست", "error");
+      return false
+    }
+  }
+
+  addToBasketLoading.value = true
   const result = await parsiStore.addProductToBasket(data)
   if(result.status == 200) {
     addToBasketLoading.value = false
@@ -410,6 +437,14 @@ const isExistProductInBasket = async () => {
       isProductInBasket.value = false
     }
   }
+}
+
+const showSwal = (title , text , icon) => {
+  $swal.fire({
+    title: title,
+    text: text,
+    icon: icon
+  });
 }
 
 </script>

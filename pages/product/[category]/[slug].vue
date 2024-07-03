@@ -27,8 +27,6 @@ const getProductData = async (id) => {
   if(dataJson.status == 200) {
     productData.value = dataJson.result
 
-    console.log(productData.value)
-
     setTimeout(() => {
       globalLoading.value = false
     }, 500);

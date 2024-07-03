@@ -7,6 +7,7 @@
 import Dashboard from "@/components/UserDashboard/dashboard.vue";
 
 definePageMeta({
-      middleware: 'user-auth'
+      middleware: 'user-auth',
+      layout: "user"
 })
 </script>

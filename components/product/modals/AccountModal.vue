@@ -4,23 +4,33 @@
   class="fixed inset-0 z-[999] flex items-start justify-center pt-4"
 >
   <div
+    @click="closeModal()"
     class="fixed inset-0 bg-slate-900/25 backdrop-blur transition-opacity opacity-100"
   ></div>
   <div
-    class="overflow-scroll relative w-full max-w-2xl transform px-4 transition-all opacity-100 scale-100"
+    class="relative w-full max-w-2xl transform px-4 transition-all opacity-100 scale-100"
   >
     <div class=" rounded-lg bg-white shadow-md">
       <div class="relative">
-        <div class="category p-8">
+        <div class="category p-3">
           <ul class="flex items-center gap-x-4" v-if="authUser && authUser.accounts.length == 0">
             <li class="py-3 rounded-lg mt-4 font-semibold font-fas">
               شما در حال حاضر اکانت ندارید. برای ساخت بر روی افزودن اکانت جدید
               کلیک کنید.
             </li>
           </ul>
-          <ul class="flex items-center gap-x-4" v-if="authUser && authUser.accounts.length != 0">
-            <li v-for="(account , index) in authUser.accounts" :key="account.id" class="py-3 rounded-lg mt-4 font-semibold font-fas">
-              {{ account.account.name }}
+          <ul class="flex items-start flex-col justify-start gap-x-4" v-if="authUser && authUser.accounts.length != 0">
+            <li 
+              :class="userSelectedAccount.id == account.id ? 'bg-gray-100' : ''"
+              @click="selectUserAccount(account)" v-for="(account , index) in authUser.accounts" :key="account.id" class="w-full cursor-pointer py-1 border flex  rounded-lg mt-2 font-semibold text-right font-fas">
+              <div class="h-auto border-l-2 flex items-center justify-center p-2">{{ account.account.name }}</div>
+              <div class="p-2">
+                <ul v-if="account.form_value.length != 0">
+                  <li v-for="(form , index) in account.form_value" :key="index" class="text-xs">
+                    <b>{{  form.title  }}</b> : <span class="mr-3">{{ form.value }}</span>
+                  </li>
+                </ul>
+              </div>
             </li>
           </ul>
         </div>
@@ -122,6 +132,7 @@ import { useParsgiftStore } from '~/store/parsiStore';
 const { $swal } = useNuxtApp()
 const parsgiftStore = useParsgiftStore()
 
+const emit = defineEmits(['closeModal' , 'selectAccount' , 'addUserAccount'])
 const props = defineProps({
   productData: {
     required: true,
@@ -130,11 +141,15 @@ const props = defineProps({
   authUser: {
     required: true,
     type: [Array , Object]
+  },
+  userSelectedAccount: {
+    required: true,
+    type: [Array , Object]
   }
 })
 
 onMounted(() => {
-  console.log(props.authUser)
+  // console.log(props.authUser)
 })
 
 const selectedAccount = ref(null)
@@ -155,6 +170,7 @@ const addUserAccount = async () => {
   if(result != false && result.status == 200) {
     console.log(result.result)
     // props.authUser.accounts = [...props.authUser.accounts , result.result]
+    emit("addUserAccount" , result.result)
     // test with emit
   }else if(result != false && result.status == 501){
     showSwal("خطایی رخ داد" , "لطفا تمامی فیلد هارا پر کنید", "error");
@@ -172,4 +188,12 @@ const showSwal = (title , text , icon) => {
   });
 }
 
+const closeModal = () => {
+  emit("closeModal")
+}
+
+const selectUserAccount = (account) => {
+  emit("closeModal")
+  emit("selectAccount" , account)
+}
 </script>
