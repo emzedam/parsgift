@@ -19,10 +19,6 @@ const parsiStore = useParsgiftStore()
 const {globalLoading} = storeToRefs(parsiStore)
 const productData = ref(null)
 
-onMounted(() => {
-
-})
-
 const getProductData = async (id) => {
   globalLoading.value = true
   const {data} = await useFetch(`${appBaseUrl}/api/parsgift/get-product?id=${id}&catId=${route.params.category}`)
@@ -30,6 +26,8 @@ const getProductData = async (id) => {
   const dataJson = data.value
   if(dataJson.status == 200) {
     productData.value = dataJson.result
+
+    console.log(productData.value)
 
     setTimeout(() => {
       globalLoading.value = false

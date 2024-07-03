@@ -15,7 +15,7 @@ useHead({
   ]
 })
 
-const {appBaseUrl} = useRuntimeConfig().public
+const { appBaseUrl } = useRuntimeConfig().public
 
 const parsiStore = useParsgiftStore()
 const {globalLoading} = storeToRefs(parsiStore)

@@ -116,7 +116,6 @@ const actions = {
                 return result.data
             }
         }catch(err) {
-            console.log(err)
             return false
         }
     },
@@ -128,7 +127,6 @@ const actions = {
                 return result.data
             }
         }catch(err) {
-            console.log(err)
             return false
         }
     },
@@ -162,7 +160,6 @@ const actions = {
     // single page
     async isProductInBasket(data) {
         let token = cookies.get("_uToken") || "";
-        console.log(token)
         if(token != ""){
             try {
                 const result = await api.post("/parsgift/basket/is-exist" , data , {
@@ -184,7 +181,6 @@ const actions = {
 
     async addProductToBasket(data) {
         let token = cookies.get("_uToken") || "";
-        console.log(token)
         if(token != ""){
             try {
                 const result = await api.post("/parsgift/basket/add-to-basket" , data , {
@@ -219,6 +215,37 @@ const actions = {
                 }
             }catch(err) {
                 return false
+            }
+        }else{
+            return false
+        }
+    },
+
+    async add_user_account(data) {
+        let token = cookies.get("_uToken") || "";
+        if(token != ""){
+            let emptyError = false;
+            data.data.forEach(element => {
+                if(element.value == "") {
+                    emptyError = true
+                }
+            });
+            if(emptyError == false) {
+                try {
+                    const result = await api.post("/parsgift/user/add-account" , data , {
+                        headers: {
+                            Authorization:`Bearer ${token}`
+                        }
+                    })
+    
+                    if(result.status == 200){
+                        return result.data
+                    }
+                }catch(err) {
+                    return false
+                }
+            }else {
+                return { status: 501 }
             }
         }else{
             return false

@@ -116,14 +116,14 @@
               <span>تعداد محصولات </span><strong>{{ basketList.length }}</strong>
             </li>
             <li class="flex justify-between items-center p-4">
-              <span>قیمت</span><strong>{{ totalPrice }} ریال</strong>
+              <span>قیمت</span><strong>{{ totalPrice.toLocaleString('en') }} ریال</strong>
             </li>
             <li class="flex justify-between items-center p-4 hidden">
               <span class="text-red-500"> تخفیف</span><strong>0</strong>
             </li>
             <li class="flex justify-between items-center p-4">
               <span> مبلغ قابل پرداخت</span
-              ><strong class="text-red-500">{{ totalPrice }} ریال</strong>
+              ><strong class="text-red-500">{{ totalPrice.toLocaleString('en') }} ریال</strong>
             </li>
           </ul>
         </div>
@@ -146,7 +146,7 @@
             />
           </div>
         </div>
-        <button type="button" class="flex justify-between items-center bg-green-500 w-full mt-4 p-4 text-white text-2xl font-semibold rounded-lg"><span>پرداخت</span><i class="fa fa-chevron-left"></i></button>
+        <button @click="connectToBank()" type="button" class="flex justify-between items-center bg-green-500 w-full mt-4 p-4 text-white text-2xl font-semibold rounded-lg"><span>پرداخت</span><i class="fa fa-chevron-left"></i></button>
       </div>
     </div>
     <div v-else class="w-full bg-gray-50 border border-1 border-gray-100 rounded-lg p-20 text-center">
@@ -201,5 +201,9 @@
           emit("spliceBasket" , index)
         }
     });
+  }
+
+  const connectToBank = () => {
+    
   }
 </script>

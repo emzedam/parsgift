@@ -107,6 +107,7 @@
 
           <button
            v-if="productData.accounts.length != 0 && authUser != null"
+           @click="accountModalState = true"
             type="button"
             class="border p-4 rounded-lg flex items-center lg:w-2/4 w-full justify-between"
           >
@@ -192,8 +193,10 @@
             <i class="fa-solid fa-lightbulb-exclamation pl-2"></i>
             نکات و توضیحات مختصر
           </div>
-          <ul v-html="productData.summary_description" class="flex flex-col space-y-4 bg-gray-100 p-4 rounded-b-lg">
-          </ul>
+          <div 
+          v-if="productData.summary_description != 'null' && productData.summary_description != ''" 
+          v-html="productData.summary_description" class="flex flex-col space-y-4 bg-gray-100 p-4 rounded-b-lg">
+          </div>
         </div>
       </div>
     </div>
@@ -257,7 +260,10 @@
   <!-- انتخاب ویزگی مدال -->
 
   <!-- انتخاب اکانت مدال -->
-  <AccountModal />
+  <AccountModal
+   :productData="productData"
+   :authUser="authUser"
+   v-if="accountModalState" />
   <!-- انتخاب اکانت مدال -->
 </template>
 
@@ -278,6 +284,7 @@ const parsiStore = useParsgiftStore()
 const {authUser} = storeToRefs(parsiStore)
 const addToBasketLoading = ref(false)
 const isProductInBasket = ref(false)
+const accountModalState = ref(false)
 
 const { $swal } = useNuxtApp()
 const activeTab = ref(0)
@@ -295,7 +302,7 @@ const selected_attribute = ref(null)
 
 onMounted(() => {
   selected_attribute.value = props.productData.attributes[0]
-
+  console.log(authUser.value)
   isExistProductInBasket()
 })
 
