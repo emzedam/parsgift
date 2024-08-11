@@ -3,6 +3,7 @@
         :totalPrice="totalPrice"
         :basketList="basketList" 
         @spliceBasket="(index) => spliceBasket(index)"
+        @removeBasket="() => removeBasket()"
     />
 </template>
 
@@ -18,10 +19,15 @@ definePageMeta({
     middleware: 'user-auth'
 })
 
+
 onMounted(() => {
    getBasketProducts()
 })
 
+const removeBasket = () => {
+    basketList.value = []
+    totalPrice.value = 0
+}
 
 const getBasketProducts = async () => {
     const result = await parsiStore.getBasketProducts()

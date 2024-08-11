@@ -72,7 +72,7 @@
                 <div class="block ">
                   <h4 class="text-sm">
                     <a
-                      href="#"
+                      href="javascript:void(0)"
                       class="font-medium text-gray-700 hover:text-gray-800"
                     >
                       <div class="flex justify-between items-center py-4"><span>نام محصول:</span>
@@ -83,9 +83,16 @@
                     </a>
                   </h4>
                   <p class="ml-4 text-sm font-medium text-gray-900">
-                    <div class="flex justify-between items-center py-4"><span>قیمت:</span>
+                    <div class="flex justify-between items-center py-1"><span>قیمت:</span>
                       <strong>
                         {{ basket.attribute_id != 0 ? basket.product_attribute.price : basket.product.price }} ریال
+                      </strong>
+                    </div>
+                  </p>
+                  <p class="ml-4 text-sm font-medium text-gray-900 py-1" v-if="basket.account != null">
+                    <div class="flex justify-between items-center"><span>اکانت:</span>
+                      <strong>
+                        {{ basket.account.account.name }}
                       </strong>
                     </div>
                   </p>
@@ -114,6 +121,9 @@
           <ul class="divide-y">
             <li class="flex justify-between items-center p-4">
               <span>تعداد محصولات </span><strong>{{ basketList.length }}</strong>
+            </li>
+            <li class="flex justify-between items-center p-4">
+              <span>قیمت</span><strong>{{ totalPrice.toLocaleString('en') }} ریال</strong>
             </li>
             <li class="flex justify-between items-center p-4">
               <span>قیمت</span><strong>{{ totalPrice.toLocaleString('en') }} ریال</strong>
@@ -172,7 +182,7 @@
     }
   })
 
-  const emit = defineEmits(["spliceBasket"])
+  const emit = defineEmits(["spliceBasket" , "removeBasket"])
 
   const removeFromBasket = async (basket , index) => {
     $swal.fire({
@@ -203,7 +213,27 @@
     });
   }
 
-  const connectToBank = () => {
+  const connectToBank = async () => {
+    const data = {
+      totalPrice: props.totalPrice,
+      basketList: []
+    }
     
+    props.basketList.forEach((val , index) => {
+      data.basketList.push({
+        product_id:   val.product_id,
+        attribute_id: val.attribute_id,
+        account_id:   val.account_id,
+        price:        val.attribute_id != 0 ? val.product_attribute.price : val.product.price
+      })
+    })
+
+    const result = await parsiStore.save_order(data)
+    if(result.status == 200) {
+      emit("removeBasket")
+      console.log(result.message)
+    }else {
+      console.log(result.message)
+    }
   }
 </script>

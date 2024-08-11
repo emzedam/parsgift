@@ -8,7 +8,7 @@
         </div>
     
         <swiper
-          v-if="galleries.length != 0"
+          v-if="galleries != null && galleries.length != 0"
           class="relative w-full"
           :modules="modules"
           :slides-per-view="3"

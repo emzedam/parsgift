@@ -36,13 +36,10 @@
               <div class="gap-4 lg:grid lg:grid-cols-12">
                 <dataset
                   v-slot="{ ds }"
-                  :ds-data="sefareshsList"
-                  :ds-sortby="sortBy"
+                  :ds-data="ordersList"
                   :ds-sort-as="{}"
                   :ds-search-in="[
-                    'sefareshId',
-                    'sefareshName',
-                    'sefareshValue',
+                    'order_id',
                   ]"
                   :ds-search-as="{}"
                 >
@@ -81,14 +78,6 @@
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
-
-                      <div
-                        class="grid gap-4 px-6 py-6 bg-stripes-purple xl:grid-cols-2 2xl:grid-cols-2 3xl:grid-cols-4 4xl:grid-cols-5 md:grid-cols-1 sm:grid-cols-1 xs:grid-cols-1"
-                      >
-                        <div class="relative flex w-full gap-4">
-                          <data-action />
                         </div>
                       </div>
 
@@ -132,15 +121,10 @@
                                               class="flex px-6 py-2 text-right"
                                             >
                                               <div class="flex items-center">
-                                                <img
-                                                  :src="row.sefareshIcon"
-                                                  class="w-10 h-10 rounded-lg mx-auto ml-2"
-                                                />
-
                                                 <p
                                                   class="text-sm font-regular text-gray-700 break-words"
                                                 >
-                                                  {{ row.sefareshName }}
+                                                  {{ row.order_id }}
                                                 </p>
                                               </div>
                                             </div>
@@ -201,7 +185,7 @@
                                                                 class="mr-1 font-medium text-hamian ltr"
                                                               >
                                                                 #{{
-                                                                  row.sefareshId
+                                                                  row.order_id
                                                                 }}
                                                               </span>
                                                             </div>
@@ -213,12 +197,12 @@
                                                             <div
                                                               class="flex items-center text-base font-semibold"
                                                             >
-                                                              تاریخ :
+                                                              تاریخ و ساعت :
                                                               <span
                                                                 class="mr-1 font-medium"
                                                               >
                                                                 {{
-                                                                  row.sefareshDate
+                                                                  row.created_at
                                                                 }}
                                                               </span>
                                                             </div>
@@ -230,12 +214,12 @@
                                                             <div
                                                               class="flex items-center text-base font-semibold"
                                                             >
-                                                              دسته :
+                                                              هزینه سفارش :
                                                               <span
                                                                 class="mr-1 font-medium"
                                                               >
                                                                 {{
-                                                                  row.sefareshCategories
+                                                                  row.price
                                                                 }}
                                                               </span>
                                                             </div>
@@ -257,20 +241,18 @@
                                                                   <span
                                                                     class="font-semibold text-green-500"
                                                                     v-if="
-                                                                      row.sefareshStatus ==
-                                                                      0
-                                                                    "
-                                                                    >منتشر
-                                                                    شده</span
-                                                                  >
-                                                                  <span
-                                                                    class="font-semibold text-red-500"
-                                                                    v-if="
-                                                                      row.sefareshStatus ==
+                                                                      row.order_status ==
                                                                       1
                                                                     "
-                                                                    >پیش
-                                                                    نویس</span
+                                                                    > پرداخت شده </span
+                                                                  >
+                                                                  <span
+                                                                    class="font-semibold text-orange-500"
+                                                                    v-if="
+                                                                      row.order_status ==
+                                                                      0
+                                                                    "
+                                                                    >در انتظار پرداخت</span
                                                                   >
                                                                 </div>
                                                               </span>
@@ -283,28 +265,28 @@
                                                             <div
                                                               class="flex items-center text-base font-semibold"
                                                             >
-                                                              ویژه:
+                                                              محصولات :
                                                               <span
-                                                                class="mr-1 font-medium text-gray-400"
+                                                                class="mr-1 font-medium"
                                                               >
-                                                                <div
-                                                                  class="flex items-center h-5 mx-auto justify-center"
-                                                                >
-                                                                  <label
-                                                                    class="relative inline-flex items-center cursor-pointer"
-                                                                    ><input
-                                                                      type="checkbox"
-                                                                      value=""
-                                                                      class="sr-only peer"
-                                                                    />
-                                                                    <div
-                                                                      class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 peer-checked:after:left-[2px] after:right-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"
-                                                                    ></div>
-                                                                    <span
-                                                                      class="text-sm font-medium text-gray-900"
-                                                                    ></span>
-                                                                  </label>
-                                                                </div>
+                                                                <a class="text-blue-500" href="javascript:void(0)">مشاهده</a>
+                                                              </span>
+                                                            </div>
+                                                          </div>
+
+                                                          <div
+                                                            class="flex px-6 py-3 text-right border-b"
+                                                          >
+                                                            <div
+                                                              class="flex items-center text-base font-semibold"
+                                                            >
+                                                              تعداد :
+                                                              <span
+                                                                class="mr-1 font-medium"
+                                                              >
+                                                                {{
+                                                                  row.products.length
+                                                                }}
                                                               </span>
                                                             </div>
                                                           </div>
@@ -321,24 +303,6 @@
                                                                 <div
                                                                   class="flex justify-center item-center"
                                                                 >
-                                                                  <div
-                                                                    class="w-4 ml-4 transform cursor-pointer hover:text-gray-500 hover:scale-110"
-                                                                  >
-                                                                    <i
-                                                                      class="fa-light fa-trash-can text-[18px] !w-5 !h-5 font-normal"
-                                                                    ></i>
-                                                                  </div>
-                                                                  <RouterLink
-                                                                    to=""
-                                                                  >
-                                                                    <div
-                                                                      class="w-4 ml-4 transform cursor-pointer hover:text-gray-500 hover:scale-110"
-                                                                    >
-                                                                      <i
-                                                                        class="fa-light fa-edit text-[18px] !w-5 !h-5 font-normal"
-                                                                      ></i>
-                                                                    </div>
-                                                                  </RouterLink>
 
                                                                   <RouterLink
                                                                     to="/view-sefaresh"
@@ -431,48 +395,44 @@
                                       <td
                                         class="relative px-6 py-2 font-bold text-center text-hamian border-l ltr text-[15px]"
                                       >
-                                        {{ row.sefareshId }}
+                                        {{ row.order_id }}
                                       </td>
 
-                                      <td class="p-2 text-center mx-auto">
-                                        {{ row.sefareshIds }}
+                                      <td
+                                        class="relative px-6 py-2 font-bold text-center text-hamian border-l ltr text-[15px]"
+                                      >
+                                        <a href="javascript:void(0)" class="text-center text-blue-500">مشاهده</a>
                                       </td>
 
-                                      <td class="px-3 py-2 text-right">
-                                        <div class="text-[15px] font-semibold">
-                                          {{ row.sefareshName }}
-                                        </div>
+                                      <td class="p-2 text-center text-[15px]">
+                                        {{ row.products.length }}
+                                      </td>
+
+                                      <td
+                                        class="p-2 text-center mx-auto text-[15px]"
+                                      >
+                                        {{ row.price }} ریال 
+                                      </td>
+
+                                      <td
+                                        class="p-2 text-center mx-auto text-[15px]"
+                                      >
+                                        {{ row.created_at }}
                                       </td>
 
                                       <td class="px-3 py-2 text-center">
                                         <div class="text-[15px] font-semibold">
                                           <span
                                             class="font-semibold text-green-500"
-                                            v-if="row.sefareshStatus == 0"
+                                            v-if="row.order_status == 1"
                                             >تکمیل شده</span
                                           >
                                           <span
-                                            class="font-semibold text-red-500"
-                                            v-if="row.sefareshStatus == 1"
-                                            >عدم احراز هویت</span
+                                            class="font-semibold text-orange-500"
+                                            v-if="row.order_status == 0"
+                                            >در انتظار پرداخت</span
                                           >
                                         </div>
-                                      </td>
-
-                                      <td class="p-2 text-center text-[15px]">
-                                        {{ row.sefareshNum }}
-                                      </td>
-
-                                      <td
-                                        class="p-2 text-center mx-auto text-[15px]"
-                                      >
-                                        {{ row.sefareshPrice }}
-                                      </td>
-
-                                      <td
-                                        class="p-2 text-center mx-auto text-[15px]"
-                                      >
-                                        {{ row.sefareshDate }}
                                       </td>
 
                                       <td
@@ -482,22 +442,12 @@
                                         <div
                                           class="flex justify-center item-center gap-4 text-gray-400"
                                         >
-                                          <div
-                                            class="w-4 transform cursor-pointer hover:text-gray-500 hover:scale-110"
-                                          >
-                                            <i
-                                              class="fa-light fa-trash-can text-[18px] !w-5 !h-5"
-                                              :class="row.sefareshDelete"
-                                            ></i>
-                                          </div>
-
                                           <RouterLink to="">
                                             <div
                                               class="w-4 transform cursor-pointer hover:text-gray-500 hover:scale-110"
                                             >
                                               <i
                                                 class="fa-light fa-edit text-[18px] !w-5 !h-5"
-                                                :class="row.sefareshEdit"
                                               ></i>
                                             </div>
                                           </RouterLink>
@@ -541,7 +491,6 @@
       </section>
 </template>
 <script>
-import sefareshs from "@/assets/sefareshs.json";
 import Dataset from "@/components/DataTable/Dataset.vue";
 import DatasetInfo from "@/components/DataTable/DatasetInfo.vue";
 import DatasetItem from "@/components/DataTable/DatasetItem.vue";
@@ -561,7 +510,12 @@ export default {
     DatasetStatus,
     DataAction,
   },
-
+  props: {
+    ordersList: {
+      required: true,
+      type: [Array , Object]
+    }
+  },
   data() {
     return {
       showModal: false,
@@ -578,7 +532,6 @@ export default {
       Expanded: null,
       Shipping: false,
       Discount: false,
-      sefareshsList: sefareshs,
       filteredContainer: [],
       cols: [
         {
@@ -588,24 +541,11 @@ export default {
           center: "justify-center",
         },
         {
-          name: "شماره فاکتور",
-          field: "sefareshImage",
-          size: "w-auto",
+          name: " محصولات",
+          field: "sefareshId",
+          size: "w-28 border-l",
           center: "justify-center",
         },
-        {
-          name: "نام محصول",
-          field: "sefareshName",
-          size: "w-auto",
-          center: "justify-start",
-        },
-        {
-          name: "وضعیت",
-          field: "sefareshStatus",
-          size: "w-auto",
-          center: "justify-center",
-        },
-
         {
           name: "تعداد",
           field: "sefareshLevel",
@@ -619,8 +559,14 @@ export default {
           center: "justify-center",
         },
         {
-          name: "تاریخ",
+          name: "تاریخ و ساعت",
           field: "sefareshFeatured",
+          size: "w-auto",
+          center: "justify-center",
+        },
+        {
+          name: "وضعیت",
+          field: "sefareshStatus",
           size: "w-auto",
           center: "justify-center",
         },
@@ -662,17 +608,6 @@ export default {
       }
       sortEl.sort = toset;
     },
-  },
-  computed: {
-    sortBy() {
-      return this.cols.reduce((acc, o) => {
-        if (o.sort) {
-          o.sort === "asc" ? acc.push(o.field) : acc.push("-" + o.field);
-        }
-
-        return acc;
-      }, []);
-    },
-  },
+  }
 };
 </script>

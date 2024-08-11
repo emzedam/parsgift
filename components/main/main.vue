@@ -135,14 +135,14 @@
                             <nuxt-link 
                             :to="`/product/${product.categories['ids'][0]}/${product.fa_title.replace(' ' , '-')}-${product.id}`"
                             class="rounded-lg h-full overflow-hidden relative">
-                                <figure class="rounded-lg h-full">
-                                    <img class="rounded-t-lg h-full" :src="`${appBaseUrl}/storage/product/${product.index_image}`" alt="خرید گیفت کارت آیتونز">
+                                <figure class="rounded-lg h-[150px]">
+                                    <img class="rounded-t-lg h-[150px] object-cover w-full" :src="`${appBaseUrl}/storage/product/${product.index_image}`" alt="خرید گیفت کارت آیتونز">
                                 </figure>
                                 <header class="p-3 text-gray-700 text-center w-full">
-                                    <h2 class="text-lg font-semibold mb-2 w-full border-b pb-2 border-red-500">{{ product.fa_title }}</h2>
-                                    <span class="text-lg font-semibold mb-8  w-full">{{ product.en_title }}</span>
+                                    <h2 class="text-md font-semibold mb-2 w-full border-b pb-2 border-red-500 truncate">{{ product.fa_title }}</h2>
+                                    <span class="text-md font-semibold mb-8  w-full truncate">{{ product.en_title }}</span>
                                     <span class="bg-red-500 my-2 rounded-full text-white text-xs py-1 hidden">20  درصد تخفیف</span>
-                                    <span class="text-lg font-semibold mb-8  w-full hidden">3000 <small class="text-xs">تومان</small></span>
+                                    <span class="text-md font-semibold mb-8  w-full hidden">3000 <small class="text-xs">تومان</small></span>
                                     <button type="button" class="bg-cyan-500 w-full text-white rounded-t-lg py-1.5 absolute bottom-[-20px] left-0 hidden">خرید</button>
                                 </header>
                             </nuxt-link>
@@ -164,7 +164,6 @@
                     <div class="product__header">
                         <div class="product__header-logo">
                             <i class="fa fa-list-alt text-xl text-red-500"></i>
-        
                         </div>
                         <h2 class="product__header-title !text-sm">
                            {{ vitrin.title }}
@@ -185,12 +184,12 @@
                             <nuxt-link 
                             :to="`/product/${vitrin.id}/${product.fa_title.replace(' ' , '-')}-${product.id}`"
                             class="rounded-lg h-full overflow-hidden relative">
-                                <figure class="rounded-lg h-full">
-                                    <img class="rounded-t-lg h-full" :src="`${appBaseUrl}/storage/product/${product.index_image}`" :alt="product.fa_title">
+                                <figure class="rounded-lg h-[150px]">
+                                    <img class="rounded-t-lg h-[150px] w-full object-cover" :src="`${appBaseUrl}/storage/product/${product.index_image}`" :alt="product.fa_title">
                                 </figure>
                                 <header class="p-3 text-gray-700 text-center w-full">
-                                    <h2 class="text-lg font-semibold mb-2 w-full border-b pb-2 border-red-500">{{ product.fa_title }}</h2>
-                                    <span class="text-lg font-semibold mb-8  w-full">{{ product.en_title }}</span>
+                                    <h2 class="text-md font-semibold mb-2 w-full border-b pb-2 border-red-500 truncate">{{ product.fa_title }}</h2>
+                                    <span class="text-md font-semibold mb-8  w-full truncate">{{ product.en_title }}</span>
                                     <span class="bg-red-500 my-2 rounded-full text-white text-xs py-1 hidden">20  درصد تخفیف</span>
                                     <span class="text-lg font-semibold mb-8  w-full hidden">3000 <small class="text-xs">تومان</small></span>
                                     <button type="button" class="bg-cyan-500 w-full text-white rounded-t-lg py-1.5 absolute bottom-[-20px] left-0 hidden">خرید</button>
