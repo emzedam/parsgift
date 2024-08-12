@@ -156,7 +156,10 @@
             />
           </div>
         </div>
-        <button @click="connectToBank()" type="button" class="flex justify-between items-center bg-green-500 w-full mt-4 p-4 text-white text-2xl font-semibold rounded-lg"><span>پرداخت</span><i class="fa fa-chevron-left"></i></button>
+        <button v-if="loading == false" @click="connectToBank()" type="button" class="flex justify-between items-center bg-green-500 w-full mt-4 p-4 text-white text-2xl font-semibold rounded-lg"><span>پرداخت</span><i class="fa fa-chevron-left"></i></button>
+        <button v-if="loading == true" type="button" class="flex justify-center items-center bg-green-500 w-full mt-4 p-4 text-white text-2xl font-semibold rounded-lg">
+          <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+        </button>
       </div>
     </div>
     <div v-else class="w-full bg-gray-50 border border-1 border-gray-100 rounded-lg p-20 text-center">
@@ -181,6 +184,7 @@
       type: Number
     }
   })
+  const loading = ref(false)
 
   const emit = defineEmits(["spliceBasket" , "removeBasket"])
 
@@ -214,6 +218,7 @@
   }
 
   const connectToBank = async () => {
+    loading.value = true
     const data = {
       totalPrice: props.totalPrice,
       basketList: []
@@ -231,9 +236,56 @@
     const result = await parsiStore.save_order(data)
     if(result.status == 200) {
       emit("removeBasket")
-      console.log(result.message)
+      loading.value = false
+      window.location.href=`${result.location}${result.authority}`
     }else {
-      console.log(result.message)
+      loading.value = false
+      alert("خطا در اتصال به بانک ...")
     }
   }
 </script>
+
+<style scoped>
+  .lds-ring {
+    /* change color here */
+    color: #1c4c5b
+  }
+  .lds-ring,
+  .lds-ring div {
+    box-sizing: border-box;
+  }
+  .lds-ring {
+    display: inline-block;
+    position: relative;
+    width: 18px;
+    height: 18px;
+  }
+  .lds-ring div {
+    box-sizing: border-box;
+      display: block;
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border: 3px solid currentColor;
+      border-radius: 50%;
+      animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+      border-color: #fff transparent transparent transparent;
+  }
+  .lds-ring div:nth-child(1) {
+    animation-delay: -0.45s;
+  }
+  .lds-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+  }
+  .lds-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+  }
+  @keyframes lds-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  </style>

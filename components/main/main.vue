@@ -140,7 +140,7 @@
                                 </figure>
                                 <header class="p-3 text-gray-700 text-center w-full">
                                     <h2 class="text-md font-semibold mb-2 w-full border-b pb-2 border-red-500 truncate">{{ product.fa_title }}</h2>
-                                    <span class="text-md font-semibold mb-8  w-full truncate">{{ product.en_title }}</span>
+                                    <h2 class="text-md font-semibold mb-8  w-full truncate">{{ product.en_title }}</h2>
                                     <span class="bg-red-500 my-2 rounded-full text-white text-xs py-1 hidden">20  درصد تخفیف</span>
                                     <span class="text-md font-semibold mb-8  w-full hidden">3000 <small class="text-xs">تومان</small></span>
                                     <button type="button" class="bg-cyan-500 w-full text-white rounded-t-lg py-1.5 absolute bottom-[-20px] left-0 hidden">خرید</button>

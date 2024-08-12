@@ -219,7 +219,7 @@
                                                                 class="mr-1 font-medium"
                                                               >
                                                                 {{
-                                                                  row.price
+                                                                  row.total_purchase
                                                                 }}
                                                               </span>
                                                             </div>
@@ -395,13 +395,16 @@
                                       <td
                                         class="relative px-6 py-2 font-bold text-center text-hamian border-l ltr text-[15px]"
                                       >
-                                        {{ row.order_id }}
+                                        #{{ row.order_id }}
                                       </td>
 
                                       <td
                                         class="relative px-6 py-2 font-bold text-center text-hamian border-l ltr text-[15px]"
                                       >
-                                        <a href="javascript:void(0)" class="text-center text-blue-500">مشاهده</a>
+                                        <nuxt-link :to="`/user/order/${row.id}`" class="text-center text-blue-500 flex">
+                                          <span class="ml-1"><i class="fa fa-eye"></i></span>
+                                          <span>مشاهده</span>
+                                        </nuxt-link>
                                       </td>
 
                                       <td class="p-2 text-center text-[15px]">
@@ -411,7 +414,7 @@
                                       <td
                                         class="p-2 text-center mx-auto text-[15px]"
                                       >
-                                        {{ row.price }} ریال 
+                                        {{ row.total_purchase }} ریال 
                                       </td>
 
                                       <td
@@ -440,17 +443,37 @@
                                         class="px-3 py-3 text-center border-l"
                                       >
                                         <div
+                                          v-if="row.order_status == 0"
                                           class="flex justify-center item-center gap-4 text-gray-400"
                                         >
-                                          <RouterLink to="">
-                                            <div
-                                              class="w-4 transform cursor-pointer hover:text-gray-500 hover:scale-110"
-                                            >
-                                              <i
-                                                class="fa-light fa-edit text-[18px] !w-5 !h-5"
-                                              ></i>
-                                            </div>
-                                          </RouterLink>
+                                          <div
+                                            @click="removeOrder(row.id)"
+                                            class="w-4 transform cursor-pointer hover:text-gray-500 hover:scale-110"
+                                          >
+                                            <i
+                                              class="fa-light fa-trash text-[18px] !w-5 !h-5"
+                                            ></i>
+                                          </div>
+                                          
+                                          <div
+                                            @click="payOrder(row.id , row.total_purchase)"
+                                            class="w-4 transform cursor-pointer hover:text-gray-500 hover:scale-110"
+                                          >
+                                            <i
+                                              class="fa-light fa-credit-card text-[18px] !w-5 !h-5"
+                                            ></i>
+                                          </div>
+                                        </div>
+                                        <div 
+                                          class="flex justify-center item-center gap-4 text-gray-400"
+                                          v-else>
+                                          <div
+                                            class="w-4 transform cursor-pointer hover:text-gray-500 hover:scale-110"
+                                          >
+                                            <i
+                                              class="fa-light fa-circle-info text-[18px] !w-5 !h-5"
+                                            ></i>
+                                          </div>
                                         </div>
                                       </td>
                                     </tr>
@@ -491,6 +514,8 @@
       </section>
 </template>
 <script>
+import { mapStores } from 'pinia'
+import { useParsgiftStore } from '~/store/parsiStore';
 import Dataset from "@/components/DataTable/Dataset.vue";
 import DatasetInfo from "@/components/DataTable/DatasetInfo.vue";
 import DatasetItem from "@/components/DataTable/DatasetItem.vue";
@@ -516,6 +541,7 @@ export default {
       type: [Array , Object]
     }
   },
+  emit: ["updateOrders"],
   data() {
     return {
       showModal: false,
@@ -585,29 +611,37 @@ export default {
       if (stateId == this.mobileSubmenuIndex) this.mobileSubmenuIndex = null;
       else this.mobileSubmenuIndex = stateId;
     },
+    async removeOrder(orderId) {
+      if(confirm("آیا از حذف این سفارش مطمعن هستید ؟")) {
+        const result = await this.parsgiftStore.removeOrder({
+          order_id: orderId
+        })
 
-    click(event, i) {
-      let toset;
-      const sortEl = this.cols[i];
-
-      if (!event.shiftKey) {
-        this.cols.forEach((o) => {
-          if (o.field !== sortEl.field) {
-            o.sort = "";
-          }
-        });
+        if(result.status == 200) {
+          this.$emit("updateOrders" , result.result)
+        }else {
+          alert(result.message)
+        }
       }
-      if (!sortEl.sort) {
-        toset = "asc";
-      }
-      if (sortEl.sort === "desc") {
-        toset = event.shiftKey ? "" : "asc";
-      }
-      if (sortEl.sort === "asc") {
-        toset = "desc";
-      }
-      sortEl.sort = toset;
     },
-  }
+
+    async payOrder(order_id , totalPrice) {
+      const result = await this.parsgiftStore.payOrder({
+        order_id: order_id,
+        totalPrice: totalPrice
+      })
+
+      if(result.status == 200) {
+        this.$emit("updateOrders" , result.result)
+        window.location.href=`${result.location}${result.authority}`
+
+      }else {
+        alert(result.message)
+      }
+    }
+  },
+  computed: {
+    ...mapStores(useParsgiftStore)
+  },
 };
 </script>

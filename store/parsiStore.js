@@ -313,12 +313,76 @@ const actions = {
         }else{
             return false
         }
+    },
+
+    async removeOrder(data) {
+        let token = cookies.get("_uToken") || "";
+        if(token != ""){
+            try {
+                const result = await api.post("/parsgift/profile/remove-order" , data , {
+                    headers: {
+                        Authorization:`Bearer ${token}`
+                    }
+                })
+
+                if(result.status == 200){
+                    return result.data
+                }
+            }catch(err) {
+                return false
+            }
+        }else{
+            return false
+        }
+    },
+
+    async payOrder(data) {
+        let token = cookies.get("_uToken") || "";
+        if(token != ""){
+            try {
+                const result = await api.post("/parsgift/profile/connect-bank" , data , {
+                    headers: {
+                        Authorization:`Bearer ${token}`
+                    }
+                })
+
+                if(result.status == 200){
+                    return result.data
+                }
+            }catch(err) {
+                return false
+            }
+        }else{
+            return false
+        }
+    },
+
+    async get_order_detail(data) {
+        let token = cookies.get("_uToken") || "";
+        if(token != ""){
+            try {
+                const result = await api.get("/parsgift/profile/get-order-detail" , {
+                    headers: {
+                        Authorization:`Bearer ${token}`
+                    },
+                    params: data
+                })
+
+                if(result.status == 200){
+                    return result.data
+                }
+            }catch(err) {
+                return false
+            }
+        }else{
+            return false
+        }
     }
 }
 
 const getters = {}
 
-export const useParsgiftStore = defineStore({
+export const useParsgiftStore = defineStore('parsgift' , {
     id: "parsi-store",
     state: state,
     actions: actions,

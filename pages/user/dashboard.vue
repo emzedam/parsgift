@@ -1,5 +1,7 @@
 <template>
-      <Dashboard :ordersList="ordersList" />
+      <Dashboard 
+      @updateOrders="(data) => updateOrders(data)"
+      :ordersList="ordersList" />
 </template>
 
 <script setup>
@@ -21,6 +23,10 @@ const getOrders = async () => {
       }else {
             console.log("error orders")
       }
+}
+
+const updateOrders = (data) => {
+      ordersList.value = data
 }
 
 definePageMeta({

@@ -57,9 +57,9 @@
               <nuxt-link
               :to="`/product/${product.categories.ids[0]}/${product.fa_title.replace(' ' , '-')}-${product.id}`"
               class="rounded-lg overflow-hidden relative">
-                <figure class="rounded-lg">
+                <figure class="rounded-lg h-[250px]">
                   <img
-                    class="rounded-t-lg"
+                    class="rounded-t-lg w-full h-full object-cover"
                     :src="`${appBaseUrl}/storage/product/${product.index_image}`"
                     :alt="product.fa_title"
                   />
