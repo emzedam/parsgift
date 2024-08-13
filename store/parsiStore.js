@@ -377,7 +377,51 @@ const actions = {
         }else{
             return false
         }
-    }
+    },
+
+    async updateProfileInfo(data)  {
+        let token = cookies.get("_uToken") || "";
+        if(token != ""){
+            try {
+                const result = await api.post("/parsgift/profile/update" , data , {
+                    headers: {
+                        Authorization:`Bearer ${token}`
+                    }
+                })
+
+                if(result.status == 200){
+                    return result.data
+                }
+            }catch(err) {
+                return false
+            }
+        }else{
+            return false
+        }
+    },
+
+    async save_document(data) {
+        let token = cookies.get("_uToken") || "";
+        if(token != ""){
+            try {
+                const formdata = new FormData();
+                formdata.append("doc_file" , data.doc_file)
+                const result = await api.post("/parsgift/profile/save-document" , formdata , {
+                    headers: {
+                       Authorization:`Bearer ${token}`
+                    }
+                })
+
+                if(result.status == 200){
+                    return result.data
+                }
+            }catch(err) {
+                return false
+            }
+        }else{
+            return false
+        }
+    } 
 }
 
 const getters = {}

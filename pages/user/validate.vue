@@ -30,7 +30,11 @@
                         class="flex items-center justify-center w-full max-w-[150px] px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md"
                       >
                         <div class="space-y-1 text-center">
+                          <div v-if="imageUrl" class="text-center">
+                            <img :src="imageUrl" alt="Selected Image" class="rounded-lg text-center w-[80px] h-[60px] object-cover" />
+                          </div>
                           <div
+                            v-else
                             class="w-12 h-12 mx-auto text-4xl text-gray-400 fa-duotone fa-image"
                           ></div>
                           <div class="flex text-sm text-gray-600">
@@ -41,6 +45,8 @@
                               ><input
                                 id="page-file-upload"
                                 type="file"
+                                @change="onFileChange" 
+                                ref="fileInput"
                                 class="sr-only" /></label
                             ><!---->
                           </div>
@@ -70,21 +76,26 @@
               <div class="relative w-full px-6 border-t">
                 <button
                   type="button"
+                  v-if="!loading"
+                  @click="createDocument()"
                   class="box-border relative z-0 inline-flex items-center justify-center p-3 px-8 py-3 overflow-hidden font-medium text-white transition-all duration-300 bg-blue-500 rounded-md cursor-pointer group ease focus:outline-none w-full my-8 max-w-[150px]"
                 >
                   <span
-                    class="absolute bottom-0 right-0 w-8 h-20 -mb-8 -mr-5 transition-all duration-300 ease-out transform rotate-45 translate-x-1 bg-white opacity-10 group-hover:translate-x-0"
-                  ></span
-                  ><span
-                    class="absolute top-0 left-0 w-20 h-8 -mt-1 -ml-12 transition-all duration-300 ease-out transform -rotate-45 -translate-x-1 bg-white opacity-10 group-hover:translate-x-0"
-                  ></span
-                  ><span
                     class="relative z-20 flex items-center justify-center w-full text-center"
-                    ><i
-                      class="pl-2 text-2xl text-white fa-duotone fa-check-circle"
-                    ></i
-                    ><span class="w-full">ارسال</span></span
                   >
+                    <span class="w-full">ارسال</span>
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  v-if="loading"
+                  class="box-border relative z-0 inline-flex items-center justify-center p-3 px-8 py-3 overflow-hidden font-medium text-white transition-all duration-300 bg-blue-500 rounded-md cursor-pointer group ease focus:outline-none w-full my-8 max-w-[150px]"
+                >
+                  <span
+                    class="relative z-20 flex items-center justify-center w-full text-center"
+                  >
+                    <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                  </span>
                 </button>
               </div>
             </div>
@@ -93,8 +104,95 @@
 </template>
 
 <script setup>
+import { useParsgiftStore } from '~/store/parsiStore';
+import { storeToRefs } from 'pinia';
+
+const parsiStore = useParsgiftStore()
+const {authUser} = storeToRefs(parsiStore)
+const { $swal } = useNuxtApp()
+
+
+const fileInput = ref(null);
+const imageUrl = ref(null);
+const loading = ref(false)
+
 definePageMeta({
-      middleware: 'user-auth',
-      layout: "user"
+    middleware: 'user-auth',
+    layout: "user"
 })
+
+const onFileChange = () => {
+  const file = fileInput.value.files[0];
+  
+  if (file && file.type.startsWith('image/')) {
+    imageUrl.value = URL.createObjectURL(file);
+  } else {
+    imageUrl.value = null; // اگر فایل تصویر نیست، URL را خالی کنید
+  }
+};
+
+const createDocument = async () => {
+  const result = await parsiStore.save_document({
+    doc_file: fileInput.value
+  })
+
+  if(result.status == 200) {
+    showSwal("پیغام موفقیت آمیز" , result.message , "success")
+  }else {
+    showSwal("خطایی رخ داد" , result.message , "error")
+  }
+}
+
+const showSwal = (title , text , icon) => {
+  $swal.fire({
+      title: title,
+      text: text,
+      icon: icon
+  });
+}
 </script>
+
+<style scoped>
+  .lds-ring {
+    /* change color here */
+    color: #1c4c5b
+  }
+  .lds-ring,
+  .lds-ring div {
+    box-sizing: border-box;
+  }
+  .lds-ring {
+    display: inline-block;
+    position: relative;
+    width: 18px;
+    height: 18px;
+  }
+  .lds-ring div {
+    box-sizing: border-box;
+      display: block;
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border: 3px solid currentColor;
+      border-radius: 50%;
+      animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+      border-color: #fff transparent transparent transparent;
+  }
+  .lds-ring div:nth-child(1) {
+    animation-delay: -0.45s;
+  }
+  .lds-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+  }
+  .lds-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+  }
+  @keyframes lds-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  </style>

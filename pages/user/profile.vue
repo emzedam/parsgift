@@ -44,6 +44,7 @@
                             </div>
                             <input
                               type="text"
+                              v-model="userInfo.name"
                               class="block w-full pr-10 py-4 border-gray-300 rounded-md focus:border-hamian focus:ring-hamian sm:text-sm"
                               placeholder="نام و نام خانوادگی "
                             />
@@ -71,6 +72,7 @@
                             </div>
                             <input
                               type="text"
+                              v-model="userInfo.username"
                               class="block w-full pl-10 py-4 border-gray-300 rounded-md focus:border-hamian focus:ring-hamian sm:text-sm ltr"
                               placeholder="bapu"
                             />
@@ -97,7 +99,8 @@
                               ></i>
                             </div>
                             <input
-                              type="text"
+                              v-model="userInfo.email"
+                              type="email"
                               class="block w-full pr-10 py-4 border-gray-300 rounded-md focus:border-hamian focus:ring-hamian sm:text-sm"
                               placeholder="your@email.com"
                             />
@@ -124,8 +127,10 @@
                               ></i>
                             </div>
                             <input
-                              type="text"
-                              class="block w-full pr-10 py-4 border-gray-300 rounded-md focus:border-hamian focus:ring-hamian sm:text-sm"
+                              type="number"
+                              disabled
+                              v-model="userInfo.mobile"
+                              class="block w-full bg-gray-50 pr-10 py-4 border-gray-300 rounded-md focus:border-hamian focus:ring-hamian sm:text-sm"
                               placeholder="09142766601"
                             />
                           </div>
@@ -152,6 +157,7 @@
                             </div>
                             <input
                               type="text"
+                              v-model="userInfo.codemelli"
                               class="block w-full pr-10 py-4 border-gray-300 rounded-md focus:border-hamian focus:ring-hamian sm:text-sm"
                               placeholder="کد ملی خود را وارد کنید"
                             />
@@ -179,6 +185,7 @@
                             </div>
                             <input
                               type="password"
+                              v-model="userInfo.password"
                               class="block w-full pr-10 py-4 border-gray-300 rounded-md focus:border-hamian focus:ring-hamian sm:text-sm"
                             />
                           </div>
@@ -192,21 +199,18 @@
               <div class="relative w-full px-6 border-t">
                 <button
                   type="button"
+                  v-if="!loading"
+                  @click="updateUserInfo()"
                   class="box-border relative z-0 inline-flex items-center justify-center p-3 px-8 py-3 overflow-hidden font-medium text-white transition-all duration-300 bg-blue-500 rounded-md cursor-pointer group ease focus:outline-none w-full my-8 max-w-sm"
                 >
-                  <span
-                    class="absolute bottom-0 right-0 w-8 h-20 -mb-8 -mr-5 transition-all duration-300 ease-out transform rotate-45 translate-x-1 bg-white opacity-10 group-hover:translate-x-0"
-                  ></span
-                  ><span
-                    class="absolute top-0 left-0 w-20 h-8 -mt-1 -ml-12 transition-all duration-300 ease-out transform -rotate-45 -translate-x-1 bg-white opacity-10 group-hover:translate-x-0"
-                  ></span
-                  ><span
-                    class="relative z-20 flex items-center justify-center w-full text-center"
-                    ><i
-                      class="pl-2 text-2xl text-white fa-duotone fa-user-edit"
-                    ></i
-                    ><span class="w-full">بروز رسانی اطلاعات</span></span
-                  >
+                  <span class="w-full">بروز رسانی اطلاعات</span>
+                </button>
+                <button
+                  type="button"
+                  v-if="loading"
+                  class="box-border relative z-0 inline-flex items-center justify-center p-3 px-8 py-3 overflow-hidden font-medium text-white transition-all duration-300 bg-blue-500 rounded-md cursor-pointer group ease focus:outline-none w-full my-8 max-w-sm"
+                >
+                  <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
                 </button>
               </div>
             </div>
@@ -215,8 +219,106 @@
 </template>
 
 <script setup>
+import { useParsgiftStore } from '~/store/parsiStore';
+import { storeToRefs } from 'pinia';
+
+const { $swal } = useNuxtApp()
+const parsiStore = useParsgiftStore()
+const {authUser} = storeToRefs(parsiStore)
+
+const userInfo = reactive({
+  name: null,
+  username: null,
+  email: null,
+  mobile: null,
+  codemelli: null,
+  password: null
+})
+
+const loading = ref(false)
+
+onMounted(() => {
+  userInfo.name = authUser.value.name
+  userInfo.username = authUser.value.username
+  userInfo.email = authUser.value.email
+  userInfo.mobile = authUser.value.mobile
+  userInfo.codemelli = authUser.value.codemelli
+})
+
 definePageMeta({
       middleware: 'user-auth',
       layout: "user"
 })
+
+const updateUserInfo = async () => {
+  if(userInfo.name == null || userInfo.name == "") {
+    showSwal("خطایی رخ داد !" , "نام و نام خانوادگی الزامیست" , "error")
+  } else if (userInfo.mobile == null || userInfo.mobile == "") {
+    showSwal("خطایی رخ داد !" , "شماره موبایل الزامیست" , "error")
+  }else {
+    loading.value = true
+    const result = await parsiStore.updateProfileInfo(userInfo)
+    if(result.status == 200) {
+      loading.value = false
+      showSwal("پیغام موفقیت آمیز" , result.message , "success")
+    }else {
+      loading.value = false
+      showSwal("خطایی رخ داد" , result.message , "error")
+    }
+  }
+}
+
+
+const showSwal = (title , text , icon) => {
+    $swal.fire({
+        title: title,
+        text: text,
+        icon: icon
+    });
+}
 </script>
+
+<style scoped>
+  .lds-ring {
+    /* change color here */
+    color: #1c4c5b
+  }
+  .lds-ring,
+  .lds-ring div {
+    box-sizing: border-box;
+  }
+  .lds-ring {
+    display: inline-block;
+    position: relative;
+    width: 18px;
+    height: 18px;
+  }
+  .lds-ring div {
+    box-sizing: border-box;
+      display: block;
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border: 3px solid currentColor;
+      border-radius: 50%;
+      animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+      border-color: #fff transparent transparent transparent;
+  }
+  .lds-ring div:nth-child(1) {
+    animation-delay: -0.45s;
+  }
+  .lds-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+  }
+  .lds-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+  }
+  @keyframes lds-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  </style>
