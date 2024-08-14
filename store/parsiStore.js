@@ -421,7 +421,49 @@ const actions = {
         }else{
             return false
         }
-    } 
+    },
+    
+    async get_user_document() {
+        let token = cookies.get("_uToken") || "";
+        if(token != ""){
+            try {
+                const result = await api.get("/parsgift/profile/get-document" , {
+                    headers: {
+                        Authorization:`Bearer ${token}`
+                    }
+                })
+
+                if(result.status == 200){
+                    return result.data
+                }
+            }catch(err) {
+                return false
+            }
+        }else{
+            return false
+        }
+    },
+
+    async add_to_wallet(data) {
+        let token = cookies.get("_uToken") || "";
+        if(token != ""){
+            try {
+                const result = await api.post("/parsgift/profile/add-wallet" , data , {
+                    headers: {
+                        Authorization:`Bearer ${token}`
+                    }
+                })
+
+                if(result.status == 200){
+                    return result.data
+                }
+            }catch(err) {
+                return false
+            }
+        }else{
+            return false
+        }
+    }
 }
 
 const getters = {}

@@ -56,18 +56,26 @@
   
                     <div class="status flex w-full justify-end">
                       <span
-                        class="border-2 bg-red-50 border-red-500 p-3 rounded-lg text-red-500 font-semibold"
+                        v-if="documentFile != null && documentFile.status == 0"
+                        class="border-2 bg-orange-50 border-orange-500 p-3 rounded-lg text-orange-500 font-semibold"
                       >
                         <i class="fa fa-question-circle pl-2"></i>
                         <span>در انتظار بررسی</span>
                       </span>
-  
-                      <!-- <span
+                      <span
+                        v-if="documentFile != null && documentFile.status == 1"
                         class="border-2 bg-green-50 border-green-500 p-3 rounded-lg text-green-500 font-semibold"
                       >
-                        <i class="fa fa-check-circle pl-2"></i>
+                        <i class="fa fa-question-circle pl-2"></i>
                         <span>تایید شده</span>
-                      </span> -->
+                      </span>
+                      <span
+                        v-if="documentFile != null && documentFile.status == 2"
+                        class="border-2 bg-red-50 border-red-500 p-3 rounded-lg text-red-500 font-semibold"
+                      >
+                        <i class="fa fa-question-circle pl-2"></i>
+                        <span>رد شده</span>
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -110,35 +118,59 @@ import { storeToRefs } from 'pinia';
 const parsiStore = useParsgiftStore()
 const {authUser} = storeToRefs(parsiStore)
 const { $swal } = useNuxtApp()
+const { appBaseUrl } = useRuntimeConfig().public
 
-
+const documentFile = ref(null)
 const fileInput = ref(null);
+const fileContainer = ref(null)
 const imageUrl = ref(null);
 const loading = ref(false)
+
+onMounted(() => {
+  get_user_document()
+})
 
 definePageMeta({
     middleware: 'user-auth',
     layout: "user"
 })
 
+const get_user_document = async () => {
+  const result = await parsiStore.get_user_document()
+  if(result.status == 200) {
+    if(result.result != null) {
+      imageUrl.value = `${appBaseUrl}/storage/${result.result.file}`
+      documentFile.value = result.result
+    }
+  }
+}
+
 const onFileChange = () => {
-  const file = fileInput.value.files[0];
-  
-  if (file && file.type.startsWith('image/')) {
-    imageUrl.value = URL.createObjectURL(file);
-  } else {
-    imageUrl.value = null; // اگر فایل تصویر نیست، URL را خالی کنید
+  if(fileInput.value.files.length != 0) {
+    const file = fileInput.value.files[0];
+    
+    if (file && file.type.startsWith('image/')) {
+      fileContainer.value = file
+      imageUrl.value = URL.createObjectURL(file);
+    } else {
+      imageUrl.value = null; // اگر فایل تصویر نیست، URL را خالی کنید
+    }
   }
 };
 
 const createDocument = async () => {
+  loading.value = true
   const result = await parsiStore.save_document({
-    doc_file: fileInput.value
+    doc_file: fileContainer.value
   })
 
   if(result.status == 200) {
+    loading.value = false
     showSwal("پیغام موفقیت آمیز" , result.message , "success")
+
+    get_user_document()
   }else {
+    loading.value = false
     showSwal("خطایی رخ داد" , result.message , "error")
   }
 }
