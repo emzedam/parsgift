@@ -1295,6 +1295,10 @@ select {
   height: 100vh;
 }
 
+.h-\[300px\] {
+  height: 300px;
+}
+
 .max-h-36 {
   max-height: 9rem;
 }

@@ -109,8 +109,8 @@ const addToWallet = async () => {
     if(result.status == 200) {
         loading.value = false
         walletModalState.value = false
-        window.location.href=`${result.location}${result.authority}`
-    }else {
+        window.location.href = `${result.location}${result.authority}`
+    } else {
         loading.value = false
         walletModalState.value = false
         showSwal("خطایی رخ داد" , result.message , "error")

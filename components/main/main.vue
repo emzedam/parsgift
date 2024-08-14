@@ -159,8 +159,8 @@
         <div v-if="initData.vitrinCategories.length != 0">
             <vitrinSlider
             v-for="(vitrin , index) in initData.vitrinCategories" :key="vitrin.id"
-            bgColor="bg-white">
-                <template #header>
+            bgColor="bg-white" :isProducts="vitrin.products.length">
+                <template #header >
                     <div class="product__header">
                         <div class="product__header-logo">
                             <i class="fa fa-list-alt text-xl text-red-500"></i>

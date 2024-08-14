@@ -20,15 +20,15 @@
           >
             <nuxt-link 
             :to="`/product/${product.categories.ids[0]}/${product.fa_title.replace(' ' , '-')}-${product.id}`" class="rounded-lg h-full">
-              <figure class="rounded-lg h-full">
+              <figure class="rounded-lg h-[300px]">
                 <img
-                  class="rounded-t-lg h-full"
+                  class="rounded-t-lg h-full w-full object-cover"
                   :src="`${appBaseUrl}/storage/product/${product.index_image}`" :alt="product.fa_title"
                 />
               </figure>
               <header class="p-3 text-gray-700 text-center w-full">
                 <h2
-                  class="text-lg font-semibold mb-2 w-full border-b pb-2 border-red-500"
+                  class="text-lg truncate font-semibold mb-2 w-full border-b pb-2 border-red-500"
                 >
                   {{ product.fa_title }}
                 </h2>
