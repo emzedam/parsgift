@@ -11,7 +11,7 @@
           v-if="relatedProducts.length != 0"
           class="relative w-full"
           :modules="modules"
-          :slides-per-view="3"
+          :slides-per-view="2"
           :space-between="6"
           :breakpoints="{ 600: { slidesPerView: 2 }, 900: { slidesPerView: 4 } }"
         >
@@ -32,7 +32,7 @@
                 >
                   {{ product.fa_title }}
                 </h2>
-                <span class="text-lg font-semibold mb-8 w-full">{{ product.en_title }}</span>
+                <span class="text-lg font-semibold mb-8 w-full truncate">{{ product.en_title }}</span>
               </header>
             </nuxt-link>
           </swiper-slide>

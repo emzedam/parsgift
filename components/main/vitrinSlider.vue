@@ -16,9 +16,9 @@ const props = defineProps({
         required: true,
         type: String
     },
-    isProducts:{
-        required: true,
-        type: [Array , Object]
+    isProducts: {
+        required: false,
+        type: [Number]
     }
 })
 </script>

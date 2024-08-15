@@ -26,16 +26,16 @@
                     <swiper v-if="initData.slider.center.length != 0" class="rounded-lg p-0 m-0 bottom-0 block h-full" :modules="modules" :slides-per-view="1" navigation @swiper="onSwiper" @slideChange="onSlideChange">
                         <swiper-slide 
                         v-for="(centerSlide , index) in initData.slider.center" :key="centerSlide.id"
-                        class="rounded-lg h-full">
+                        class="rounded-lg h-[450px] w-full">
     
                             <nuxt-link v-if="centerSlide.type != 'externalLink'" :to="centerSlide.linkTo" class="rounded-lg h-full">
-                                <figure class="rounded-lg h-full">
-                                    <img class="rounded-lg h-full" :src="`${appBaseUrl}/storage/theme/${centerSlide.file_name}`" alt="تحویل سریع با پشتیبانی آنلاین">
+                                <figure class="rounded-lg h-[450px] w-full">
+                                    <img class="rounded-lg h-[450px] w-full object-cover" :src="`${appBaseUrl}/storage/theme/${centerSlide.file_name}`" alt="تحویل سریع با پشتیبانی آنلاین">
                                 </figure>
                             </nuxt-link>
-                            <a :href="centerSlide.linkTo" target="_blank" v-else>
-                                <figure class="rounded-lg h-full">
-                                    <img class="rounded-lg h-full" :src="`${appBaseUrl}/storage/theme/${centerSlide.file_name}`" alt="تحویل سریع با پشتیبانی آنلاین">
+                            <a :href="centerSlide.linkTo" class="h-[450px]" target="_blank" v-else>
+                                <figure class="rounded-lg h-[450px]">
+                                    <img class="rounded-lg h-[450px]" :src="`${appBaseUrl}/storage/theme/${centerSlide.file_name}`" alt="تحویل سریع با پشتیبانی آنلاین">
                                 </figure>
                             </a>
                             
@@ -87,9 +87,9 @@
     
             <section v-if="initData.adsBanners.length != 0" class="w-full mt-6 relative grid grid-rows-1 grid-cols-12 gap-4">
                     <div 
-                    class="lg:col-span-4 col-span-6" 
-                    v-for="(banner , index) in initData.adsBanners" 
-                    :key="banner.id"
+                        class="lg:col-span-4 col-span-12" 
+                        v-for="(banner , index) in initData.adsBanners" 
+                        :key="banner.id"
                     >
                         <nuxt-link 
                             v-if="banner.type != 'externalLink'"
@@ -135,8 +135,8 @@
                             <nuxt-link 
                             :to="`/product/${product.categories['ids'][0]}/${product.fa_title.replace(' ' , '-')}-${product.id}`"
                             class="rounded-lg h-full overflow-hidden relative">
-                                <figure class="rounded-lg h-[200px]">
-                                    <img class="rounded-t-lg h-[200px] object-cover w-full" :src="`${appBaseUrl}/storage/product/${product.index_image}`" alt="خرید گیفت کارت آیتونز">
+                                <figure class="rounded-lg h-[150px]">
+                                    <img class="rounded-t-lg h-[150px] object-cover w-full" :src="`${appBaseUrl}/storage/product/${product.index_image}`" alt="خرید گیفت کارت آیتونز">
                                 </figure>
                                 <header class="p-3 text-gray-700 text-center w-full">
                                     <h2 class="text-md font-semibold mb-2 w-full border-b pb-2 border-red-500 truncate">{{ product.fa_title }}</h2>
@@ -157,10 +157,10 @@
 
         <!-- vitrin -->
         <div v-if="initData.vitrinCategories.length != 0">
-            <vitrinSlider
+            <vitrinSlider   
             v-for="(vitrin , index) in initData.vitrinCategories" :key="vitrin.id"
             bgColor="bg-white" :isProducts="vitrin.products.length">
-                <template #header >
+                <template #header>
                     <div class="product__header">
                         <div class="product__header-logo">
                             <i class="fa fa-list-alt text-xl text-red-500"></i>
@@ -170,7 +170,7 @@
                         </h2>
         
         
-                        <nuxt-link :to="`/category/${vitrin.slug}-${vitrin.id}`" :title="vitrin.title" class="product__header-more !font-semibold">
+                        <nuxt-link :to="`/category/${vitrin.slug}-${vitrin.id}`" :title="vitrin.title" class="product__header-more !font-semibold !text-sm">
                             مشاهده آرشیو
                             <i class="fa fa-chevron-left"></i>
                         </nuxt-link>
@@ -184,8 +184,8 @@
                             <nuxt-link 
                             :to="`/product/${vitrin.id}/${product.fa_title.replace(' ' , '-')}-${product.id}`"
                             class="rounded-lg h-full overflow-hidden relative">
-                                <figure class="rounded-lg h-[200px]">
-                                    <img class="rounded-t-lg h-[200px] w-full object-cover" :src="`${appBaseUrl}/storage/product/${product.index_image}`" :alt="product.fa_title">
+                                <figure class="rounded-lg h-[150px]">
+                                    <img class="rounded-t-lg h-[150px] w-full object-cover" :src="`${appBaseUrl}/storage/product/${product.index_image}`" :alt="product.fa_title">
                                 </figure>
                                 <header class="p-3 text-gray-700 text-center w-full">
                                     <h2 class="text-md font-semibold mb-2 w-full border-b pb-2 border-red-500 truncate">{{ product.fa_title }}</h2>
