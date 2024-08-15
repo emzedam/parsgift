@@ -129,14 +129,14 @@
                 </template>
                 <!-- products -->
                 <template #content v-if="initData.leatestProducts.length != 0">
-                    <swiper class="relative  w-full" :modules="modules" :slides-per-view="2" :space-between="20" :breakpoints="{ 600: { slidesPerView: 2 }, 900: { slidesPerView: 6, }, }">
+                    <swiper class="relative  w-full" :modules="modules" :slides-per-view="2" :space-between="20" :breakpoints="{ 600: { slidesPerView: 2 }, 900: { slidesPerView: 5, }, }">
                         <swiper-slide v-for="(product , index) in initData.leatestProducts" :key="product.id" class="rounded-lg h-full border bg-white">
         
                             <nuxt-link 
                             :to="`/product/${product.categories['ids'][0]}/${product.fa_title.replace(' ' , '-')}-${product.id}`"
                             class="rounded-lg h-full overflow-hidden relative">
-                                <figure class="rounded-lg h-[150px]">
-                                    <img class="rounded-t-lg h-[150px] object-cover w-full" :src="`${appBaseUrl}/storage/product/${product.index_image}`" alt="خرید گیفت کارت آیتونز">
+                                <figure class="rounded-lg h-[200px]">
+                                    <img class="rounded-t-lg h-[200px] object-cover w-full" :src="`${appBaseUrl}/storage/product/${product.index_image}`" alt="خرید گیفت کارت آیتونز">
                                 </figure>
                                 <header class="p-3 text-gray-700 text-center w-full">
                                     <h2 class="text-md font-semibold mb-2 w-full border-b pb-2 border-red-500 truncate">{{ product.fa_title }}</h2>
@@ -178,14 +178,14 @@
                 </template>
                 <!-- products -->
                 <template #content v-if="vitrin.products.length != 0">
-                    <swiper class="relative  w-full" :modules="modules" :slides-per-view="2" :space-between="20" :breakpoints="{ 600: { slidesPerView: 2 }, 900: { slidesPerView: 6, }, }">
+                    <swiper class="relative  w-full" :modules="modules" :slides-per-view="2" :space-between="20" :breakpoints="{ 600: { slidesPerView: 2 }, 900: { slidesPerView: 5, }, }">
                         <swiper-slide v-for="(product , index) in vitrin.products" :key="product.id" class="rounded-lg h-full border bg-white">
         
                             <nuxt-link 
                             :to="`/product/${vitrin.id}/${product.fa_title.replace(' ' , '-')}-${product.id}`"
                             class="rounded-lg h-full overflow-hidden relative">
-                                <figure class="rounded-lg h-[150px]">
-                                    <img class="rounded-t-lg h-[150px] w-full object-cover" :src="`${appBaseUrl}/storage/product/${product.index_image}`" :alt="product.fa_title">
+                                <figure class="rounded-lg h-[200px]">
+                                    <img class="rounded-t-lg h-[200px] w-full object-cover" :src="`${appBaseUrl}/storage/product/${product.index_image}`" :alt="product.fa_title">
                                 </figure>
                                 <header class="p-3 text-gray-700 text-center w-full">
                                     <h2 class="text-md font-semibold mb-2 w-full border-b pb-2 border-red-500 truncate">{{ product.fa_title }}</h2>

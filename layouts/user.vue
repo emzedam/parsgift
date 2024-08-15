@@ -75,7 +75,7 @@
                                     </nuxt-link>
                                 </li>
 
-                                <li class="flex items-center justify-between p-4">
+                                <li @click="doSignOut()" class="flex cursor-pointer items-center justify-between p-4">
                                     <div class="flex items-center">
                                         <i class="fa fa-right-from-bracket pl-2"></i>
                                         خروج
@@ -108,7 +108,33 @@
 <script setup>
 import { useParsgiftStore } from '~/store/parsiStore';
 import { storeToRefs } from 'pinia'
+import {useRouter} from 'vue-router'
 
+const router = useRouter()
+const { $swal } = useNuxtApp()
 const parsiStore = useParsgiftStore()
 const { initData, globalLoading , authUser } = storeToRefs(parsiStore)
+
+const doSignOut = async () => {
+    $swal.fire({
+        title: "هشدار",
+        text: "آیا از خروج حساب کاربری خود مطمعنید؟",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#9d2c48",
+        cancelButtonColor: "#555",
+        cancelButtonText: "خیر",
+        confirmButtonText: "بله",
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            const result = await parsiStore.logout_user()
+            if(result.status == 200){
+                router.push("/")
+                showSwal("پیغام موفقیت آمیز" , "خروج از حساب با موفقیت انجام شد" , "success")
+            }else{
+                showSwal("پیغام خطا" , result.message , "error")
+            }
+        }
+    });
+}
 </script>
