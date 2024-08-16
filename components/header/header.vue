@@ -112,7 +112,7 @@
               <li class="block ml-[27px]">
                 <nuxt-link to="/">صفحه اصلی</nuxt-link>
               </li>
-              <li class="block ml-[27px]">
+              <li class="ml-[27px] hidden">
                 <nuxt-link to="/product/product-ordable"
                   >پرداخت ارزی آنلاین</nuxt-link
                 >
@@ -380,7 +380,7 @@
               مجله پارسی گیفت</nuxt-link
             >
           </li>
-          <li @click="mobileSideState = false">
+          <li @click="mobileSideState = false" class="hidden">
             <nuxt-link to="/product/product-ordable" class="block w-full">
               پرداخت ارزی آنلاین</nuxt-link
             >
