@@ -75,12 +75,12 @@
     <div class="grid lg:grid-cols-3 gap-4">
       <div class="lg:col-span-1 border p-4 rounded-lg overflow-hidden relative">
         <img
-          class="rounded-lg"
+          class="rounded-lg w-full object-cover"
           v-if="productData.has_property == 0"
           :src="`${appBaseUrl}/storage/product/${productData.index_image}`"
         />
         <img
-          class="rounded-lg"
+          class="rounded-lg w-full object-cover"
           v-if="productData.has_property != 0 && selected_attribute != null"
           :src="`${appBaseUrl}/storage/product/properties/${selected_attribute.image}`"
         />
@@ -134,14 +134,14 @@
           </div>
         </div>
 
-        <div class="flex items-center justify-between my-16 gap-4">
+        <div class="flex flex-col lg:flex-row items-center justify-between my-16 gap-4">
           <div class="flex items-center bg-gray-100 p-4 rounded-lg">
             <span>جمع کل مبلغ : </span>
-            <span v-if="productData.has_property == 0">{{ productData.price }}<small>ریال</small></span>
+            <span v-if="productData.has_property == 0">{{ rialSeprate(productData.price) }}<small class="mr-2">ریال</small></span>
             <span
-            v-if="productData.has_property != 0 && selected_attribute != null"
+              v-if="productData.has_property != 0 && selected_attribute != null"
             >
-              {{ selected_attribute.price }}
+              {{ rialSeprate(selected_attribute.price) }}
               <small>ریال</small>
             </span>
             <span class="hidden bg-red-50 px-2 text-red-500 mr-2 rounded-lg">
@@ -445,6 +445,12 @@ const showSwal = (title , text , icon) => {
     text: text,
     icon: icon
   });
+}
+
+const rialSeprate = (price) => {
+  return price
+    .replace(/\D/g, "")
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 </script>

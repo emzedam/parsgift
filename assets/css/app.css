@@ -955,10 +955,6 @@ select {
   grid-column: span 3 / span 3;
 }
 
-.col-span-6 {
-  grid-column: span 6 / span 6;
-}
-
 .m-0 {
   margin: 0px;
 }
@@ -1271,6 +1267,14 @@ select {
   height: 280px;
 }
 
+.h-\[300px\] {
+  height: 300px;
+}
+
+.h-\[450px\] {
+  height: 450px;
+}
+
 .h-\[500px\] {
   height: 500px;
 }
@@ -1295,8 +1299,12 @@ select {
   height: 100vh;
 }
 
-.h-\[300px\] {
-  height: 300px;
+.h-\[550px\] {
+  height: 550px;
+}
+
+.h-\[560px\] {
+  height: 560px;
 }
 
 .max-h-36 {
@@ -4082,6 +4090,10 @@ select {
 
   .lg\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .lg\:flex-row {
+    flex-direction: row;
   }
 
   .lg\:items-start {

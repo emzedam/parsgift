@@ -22,20 +22,18 @@
                 </section>
     
                 <section class="slider lg:col-span-6  w-full">
-    
                     <swiper v-if="initData.slider.center.length != 0" class="rounded-lg p-0 m-0 bottom-0 block h-full" :modules="modules" :slides-per-view="1" navigation @swiper="onSwiper" @slideChange="onSlideChange">
                         <swiper-slide 
                         v-for="(centerSlide , index) in initData.slider.center" :key="centerSlide.id"
-                        class="rounded-lg h-[450px] w-full">
-    
+                        class="rounded-lg h-[560px] w-full">
                             <nuxt-link v-if="centerSlide.type != 'externalLink'" :to="centerSlide.linkTo" class="rounded-lg h-full">
-                                <figure class="rounded-lg h-[450px] w-full">
-                                    <img class="rounded-lg h-[450px] w-full object-cover" :src="`${appBaseUrl}/storage/theme/${centerSlide.file_name}`" alt="تحویل سریع با پشتیبانی آنلاین">
+                                <figure class="rounded-lg h-[560px] w-full">
+                                    <img class="rounded-lg h-[560px] w-full object-cover" :src="`${appBaseUrl}/storage/theme/${centerSlide.file_name}`" alt="تحویل سریع با پشتیبانی آنلاین">
                                 </figure>
                             </nuxt-link>
-                            <a :href="centerSlide.linkTo" class="h-[450px]" target="_blank" v-else>
-                                <figure class="rounded-lg h-[450px]">
-                                    <img class="rounded-lg h-[450px]" :src="`${appBaseUrl}/storage/theme/${centerSlide.file_name}`" alt="تحویل سریع با پشتیبانی آنلاین">
+                            <a :href="centerSlide.linkTo" class="h-[560px]" target="_blank" v-else>
+                                <figure class="rounded-lg h-[560px]">
+                                    <img class="rounded-lg h-[560px]" :src="`${appBaseUrl}/storage/theme/${centerSlide.file_name}`" alt="تحویل سریع با پشتیبانی آنلاین">
                                 </figure>
                             </a>
                             
