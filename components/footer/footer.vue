@@ -4,8 +4,8 @@
       <div
         class="footer-desktop items-center justify-between p-6 hidden lg:flex border rounded-lg"
       >
-        <div class="menu-nav flex items-center">
-          <nav class="flex items-center">
+        <div class="menu-nav flex flex-col items-start">
+          <nav class="flex items-center border-b py-2 w-full">
             <ul class="flex gap-4 items-center font-semibold">
               <li class="flex items-center">
                 <nuxt-link to="/">خانه</nuxt-link>
@@ -27,6 +27,15 @@
               </li>
             </ul>
           </nav>
+
+          <div class="mt-4 ">
+            <span class="ml-2 font-bold"><i class="fa fa-location ml-2"></i>آدرس :</span>
+            <span>تهران خیابان ولیعصر - نرسیده به بوستان ساعی - برج سپهر ساعی - طبقه سوم واحد ۳۰۲</span>
+          </div>
+          <div class="mt-3">
+            <span class="ml-2 font-bold"><i class="fa fa-phone ml-2"></i> تلفن :</span>
+            <span>+۹۸۲۱۸۸۷۰۴۸۷۸</span>
+          </div>
         </div>
 
         <div
@@ -59,12 +68,23 @@
                   <img src="assets/images/logo.svg" class="w-36" />
                 </div>
                 <div class="about-details">
-                  <div class="about-desc text-center font-fas">
+                  <div class="about-desc text-center font-fas border-b pb-3">
                     <p>
                       © هر گونه کپی&zwnj;برداری جزئی یا کلی از مطالب گیفت پارسی مگ
                       بدون کسب مجوز مکتوب ممنوع است. حقوق این سایت به گیفت پارسی تعلق
                       دارد.
                     </p>
+                  </div>
+
+                  <div class="border-b pb-3">
+                    <div class="mt-4 ">
+                      <span class="ml-2 font-bold"><i class="fa fa-location ml-2"></i>آدرس :</span>
+                      <span>تهران خیابان ولیعصر - نرسیده به بوستان ساعی - برج سپهر ساعی - طبقه سوم واحد ۳۰۲</span>
+                    </div>
+                    <div class="mt-3">
+                      <span class="ml-2 font-bold"><i class="fa fa-phone ml-2"></i> تلفن :</span>
+                      <span>+۹۸۲۱۸۸۷۰۴۸۷۸</span>
+                    </div>
                   </div>
 
                   <div

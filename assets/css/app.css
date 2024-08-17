@@ -1299,6 +1299,7 @@ select {
   height: 100vh;
 }
 
+<<<<<<< HEAD
 .h-\[550px\] {
   height: 550px;
 }
@@ -1307,6 +1308,8 @@ select {
   height: 560px;
 }
 
+=======
+>>>>>>> efab86f (latest commit)
 .max-h-36 {
   max-height: 9rem;
 }
@@ -2307,6 +2310,10 @@ select {
 
 .pb-24 {
   padding-bottom: 6rem;
+}
+
+.pb-3 {
+  padding-bottom: 0.75rem;
 }
 
 .pb-4 {

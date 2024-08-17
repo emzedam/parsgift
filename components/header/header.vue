@@ -109,13 +109,9 @@
           </div>
           <div class="pars">
             <ul class="flex items-center">
-              <li class="block ml-[27px]">
-                <nuxt-link to="/">صفحه اصلی</nuxt-link>
-              </li>
+              <li class="block ml-[27px]"><nuxt-link to="/">صفحه اصلی</nuxt-link></li>
               <li class="ml-[27px] hidden">
-                <nuxt-link to="/product/product-ordable"
-                  >پرداخت ارزی آنلاین</nuxt-link
-                >
+                <nuxt-link to="/product/product-ordable">پرداخت ارزی آنلاین</nuxt-link>
               </li>
               <li class="block ml-[27px]">
                 <nuxt-link to="/news">مجله پارسی گیفت</nuxt-link>
@@ -381,9 +377,7 @@
             >
           </li>
           <li @click="mobileSideState = false" class="hidden">
-            <nuxt-link to="/product/product-ordable" class="block w-full">
-              پرداخت ارزی آنلاین</nuxt-link
-            >
+            <nuxt-link to="/product/product-ordable" class="block w-full"> پرداخت ارزی آنلاین</nuxt-link>
           </li>
           <li @click="mobileSideState = false">
             <nuxt-link to="/faqs" class="block w-full">سوالات متداول</nuxt-link>
