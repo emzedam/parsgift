@@ -81,7 +81,7 @@
           v-for="(product , index) in items" :key="product.id"
           >
             <nuxt-link
-            :to="`/product/${product.categories.ids[0]}/${product.fa_title.replace(' ' , '-')}-${product.id}`"
+            :to="`/product/${catData.id}/${product.fa_title.replace(' ' , '-')}-${product.id}`"
             class="rounded-lg overflow-hidden relative">
               <figure class="rounded-lg h-[250px]">
                 <img

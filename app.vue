@@ -24,14 +24,8 @@ const {globalLoading} = storeToRefs(parsiStore)
 
 
 async function fetchInitData() {
-  const token = useCookie('_uToken')
   globalLoading.value = true
-  const {data} = await useFetch(`${appBaseUrl}/api/parsgift/get-init`, {
-    lazy: true,
-    headers: {
-      Authorization:`Bearer ${token.value}`
-    }
-  })
+  const {data} = await useFetch(`${appBaseUrl}/api/parsgift/get-init`)
   const userJson = data.value
   if(userJson.status == 200) {
     parsiStore.$patch({

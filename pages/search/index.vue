@@ -55,7 +55,7 @@
             v-for="(product , index) in searchResult" :key="product.id"
             >
               <nuxt-link
-              :to="`/product/${product.categories.ids[0]}/${product.fa_title.replace(' ' , '-')}-${product.id}`"
+              :to="`/product/${product.pcategories[0]['id']}/${product.fa_title.replace(' ' , '-')}-${product.id}`"
               class="rounded-lg overflow-hidden relative">
                 <figure class="rounded-lg h-[250px]">
                   <img

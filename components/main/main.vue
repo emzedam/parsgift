@@ -10,14 +10,14 @@
                         v-if="initData.slider.right.type != 'externalLink'"
                         :to="initData.slider.right.linkTo"
                     >
-                        <img class="rounded-lg h-full" :src="`${appBaseUrl}/storage/theme/${initData.slider.right.file_name}`">
+                        <img class="rounded-lg h-full object-cover" :src="`${appBaseUrl}/storage/theme/${initData.slider.right.file_name}`">
                     </nuxt-link>
                     <a 
                         v-else
                         target="_blank"
                         :href="initData.slider.right.linkTo"
                     >
-                        <img class="rounded-lg h-full" :src="`${appBaseUrl}/storage/theme/${initData.slider.right.file_name}`">
+                        <img class="rounded-lg h-full object-cover" :src="`${appBaseUrl}/storage/theme/${initData.slider.right.file_name}`">
                     </a>
                 </section>
     
@@ -46,14 +46,14 @@
                         v-if="initData.slider.left.type != 'externalLink'"
                         :to="initData.slider.left.linkTo"
                     >
-                        <img class="rounded-lg h-full" :src="`${appBaseUrl}/storage/theme/${initData.slider.left.file_name}`">
+                        <img class="rounded-lg h-full object-cover" :src="`${appBaseUrl}/storage/theme/${initData.slider.left.file_name}`">
                     </nuxt-link>
                     <a 
                         v-else
                         target="_blank"
                         :href="initData.slider.left.linkTo"
                     >
-                        <img class="rounded-lg h-full" :src="`${appBaseUrl}/storage/theme/${initData.slider.left.file_name}`">
+                        <img class="rounded-lg h-full object-cover" :src="`${appBaseUrl}/storage/theme/${initData.slider.left.file_name}`">
                     </a>
                 </section>
             </div>
@@ -131,7 +131,7 @@
                         <swiper-slide v-for="(product , index) in initData.leatestProducts" :key="product.id" class="rounded-lg h-full border bg-white">
         
                             <nuxt-link 
-                            :to="`/product/${product.categories['ids'][0]}/${product.fa_title.replace(' ' , '-')}-${product.id}`"
+                            :to="`/product/${product.pcategories[0]['id']}/${product.fa_title.replace(' ' , '-')}-${product.id}`"
                             class="rounded-lg h-full overflow-hidden relative">
                                 <figure class="rounded-lg h-[150px]">
                                     <img class="rounded-t-lg h-[150px] object-cover w-full" :src="`${appBaseUrl}/storage/product/${product.index_image}`" alt="خرید گیفت کارت آیتونز">

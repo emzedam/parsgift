@@ -19,7 +19,7 @@
           v-for="(product , index) in relatedProducts" :key="product.id"
           >
             <nuxt-link 
-            :to="`/product/${product.categories.ids[0]}/${product.fa_title.replace(' ' , '-')}-${product.id}`" class="rounded-lg h-full">
+            :to="`/product/${product.pcategories[0]['id']}/${product.fa_title.replace(' ' , '-')}-${product.id}`" class="rounded-lg h-full">
               <figure class="rounded-lg h-[300px]">
                 <img
                   class="rounded-t-lg h-full w-full object-cover"
