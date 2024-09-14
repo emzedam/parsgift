@@ -15,7 +15,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      appBaseUrl: 'https://api.giftparsi.ir'
+      appBaseUrl: 'https://api.suringift.com'
     }
   },
   modules: [
