@@ -10,7 +10,7 @@ import { useParsgiftStore } from "~/store/parsiStore";
 import { storeToRefs } from "pinia";
 
 useHead({
-  title: "پارسی گیفت",
+  title: "سورین گیفت",
   meta: [
     { name: 'description', content: 'My amazing site.' }
   ]
