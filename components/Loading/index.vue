@@ -1,6 +1,6 @@
 <template>
     <div :class="isShow == true ? 'loading show' : 'loading hide'">
-       <img src="@/assets/images/logo.svg" width="200" />
+       <img src="@/assets/images/logo.png" width="200" />
     </div>
 </template>
 

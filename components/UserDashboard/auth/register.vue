@@ -5,7 +5,7 @@
           <h2
             class="mt-8 text-center text-3xl font-bold tracking-tight text-gray-900"
           >
-            عضویت در پارسی گیفت
+            عضویت در سورین گیفت
           </h2>
         </div>
   

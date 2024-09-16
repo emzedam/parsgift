@@ -12,6 +12,9 @@ import Main from "@/components/main/main.vue";
 import { useParsgiftStore } from "~/store/parsiStore";
 import { storeToRefs } from "pinia";
 
+
+
+
 const parsiStore = useParsgiftStore()
 
 const { initData } = storeToRefs(parsiStore)

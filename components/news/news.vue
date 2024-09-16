@@ -5,7 +5,7 @@
     <div class="form col-span-12 lg:border rounded-lg bg-white">
       <h2 class="font-semibold text-2xl py-8 px-6 text-blue-500 rounded-t-lg">
         <i class="fa fa-blog"></i>
-        مجله پارسی گیفت
+        مجله سورین گیفت
       </h2>
       <div class="p-4 space-y-4">
         <nuxt-link

@@ -5,7 +5,7 @@
         <h2
           class="mt-8 text-center text-3xl font-bold tracking-tight text-gray-900"
         >
-          ورود به پارسی گیفت
+          ورود به سورین گیفت
         </h2>
       </div>
 

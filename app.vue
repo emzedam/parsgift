@@ -5,6 +5,7 @@
 </template>
 
 <script setup>
+import api from "@/axios/index"
 import { useParsgiftStore } from "~/store/parsiStore";
 import { storeToRefs } from "pinia";
 
@@ -25,13 +26,14 @@ const {globalLoading} = storeToRefs(parsiStore)
 
 async function fetchInitData() {
   globalLoading.value = true
-  const {data} = await useFetch(`${appBaseUrl}/api/parsgift/get-init`)
-  const userJson = data.value
-  if(userJson.status == 200) {
+  const {data} = await api.get(`${appBaseUrl}/api/parsgift/get-init`)
+  
+  if(data.status == 200) {
     parsiStore.$patch({
-      initData: userJson.result,
-      basketCount: userJson.result.basket_count
+      initData: data.result,
+      basketCount: data.result.basket_count
     })
+
     setTimeout(() => {
       globalLoading.value = false
     }, 500);

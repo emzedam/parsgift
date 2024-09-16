@@ -43,7 +43,7 @@
                   <nuxt-link
                     to="/news"
                     class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white"
-                    >مجله پارسی گیفت</nuxt-link
+                    >مجله سورین گیفت</nuxt-link
                   >
                 </div>
               </li>

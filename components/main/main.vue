@@ -66,7 +66,7 @@
             <section class="w-full mt-6 relative   flex gap-2 items-center">
     
                 <div class="bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-full  items-center justify-center px-4 py-6  whitespace-nowrap text-center font-semibold hidden lg:flex">
-                    خدمات پارسی گیفت
+                    خدمات سورین گیفت
                 </div>
     
                 <div class="slider overflow-hidden">
@@ -228,7 +228,7 @@
 
         <section v-if="initData.quickAvailables.length != 0" class="w-full my-16 relative  p-8 bg-indigo-500">
             <div class="w-full max-w-screen-xl mx-auto lg:px-6 px-2">
-                <h2 class="text-white text-2xl py-6 font-semibold">دسترسی سریع به خدمات پارسی گیفت</h2>
+                <h2 class="text-white text-2xl py-6 font-semibold">دسترسی سریع به خدمات سورین گیفت</h2>
                 <div class="grid lg:grid-cols-4 grid-cols-1 gap-4 mt-6 font-iransans">
                     <a :href="link.url" target="_blank" v-for="(link , index) in initData.quickAvailables" :key="link.id" class="bg-white p-6 flex items-center justify-center w-full  col-span-1 rounded-lg">
                         <span class="text-2xl font-semibold"> {{ link.title }}
@@ -248,7 +248,7 @@
     
                     </div>
                     <h2 class="product__header-title !text-sm">
-                        مجله پارسی گیفت
+                        مجله سورین گیفت
                     </h2>
     
     

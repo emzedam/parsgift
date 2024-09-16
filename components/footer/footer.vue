@@ -17,7 +17,7 @@
                 <nuxt-link to="/faq">سوالات متداول</nuxt-link>
               </li>
               <li class="flex items-center">
-                <nuxt-link to="/news">مجله پارسی گیفت</nuxt-link>
+                <nuxt-link to="/news">مجله سورین گیفت</nuxt-link>
               </li>
               <li class="flex items-center">
                 <nuxt-link to="/contactus">تماس با ما</nuxt-link>
@@ -65,13 +65,13 @@
                 <div
                   class="about-image flex justify-center items-center text-orange-500 py-8 text-4xl font-semibold"
                 >
-                  <img src="assets/images/logo.svg" class="w-36" />
+                  <img src="assets/images/logo.png" class="w-36" />
                 </div>
                 <div class="about-details">
                   <div class="about-desc text-center font-fas border-b pb-3">
                     <p>
-                      © هر گونه کپی&zwnj;برداری جزئی یا کلی از مطالب گیفت پارسی مگ
-                      بدون کسب مجوز مکتوب ممنوع است. حقوق این سایت به گیفت پارسی تعلق
+                      © هر گونه کپی&zwnj;برداری جزئی یا کلی از مطالب گیفت سورین مگ
+                      بدون کسب مجوز مکتوب ممنوع است. حقوق این سایت به گیفت سورین تعلق
                       دارد.
                     </p>
                   </div>

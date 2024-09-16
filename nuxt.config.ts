@@ -33,13 +33,16 @@ export default defineNuxtConfig({
       htmlAttrs: {
         dir: 'rtl'
       },
-      title: 'پارسی گیفت',
+      title: 'سورین گیفت',
       meta: [
-        { name: 'description', content: 'پارسی گیفت' }
+        { name: 'description', content: 'سورین گیفت' }
       ],
       bodyAttrs: {
         class: 'font-fa'
       },
+      link: [
+        { rel: "icon", type: "image/png", href: "/surinfav.png" }
+      ]
     }
   },
 

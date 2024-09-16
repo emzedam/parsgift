@@ -114,7 +114,7 @@
                 <nuxt-link to="/product/product-ordable">پرداخت ارزی آنلاین</nuxt-link>
               </li>
               <li class="block ml-[27px]">
-                <nuxt-link to="/news">مجله پارسی گیفت</nuxt-link>
+                <nuxt-link to="/news">مجله سورین گیفت</nuxt-link>
               </li>
               <li class="block ml-[27px]">
                 <nuxt-link to="/faq">سوالات متداول</nuxt-link>
@@ -205,7 +205,7 @@
                       v-model="searchValue"
                       id="default-search"
                       class="block w-full p-4 ps-10 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="جستجو در پارسی گیفت"
+                      placeholder="جستجو در سورین گیفت"
                     />
                     <button
                       type="submit"
@@ -219,7 +219,7 @@
             </div>
           </div>
           <div class="flex items-center">
-            <img src="@/assets/images/logo.svg" class="w-24" />
+            <img src="@/assets/images/logo.png" class="w-24" />
           </div>
         </div>
       </div>
@@ -283,7 +283,7 @@
         </ul>
       </div>
       <div class="logo">
-        <img src="@/assets/images/logo.svg" class="w-24" />
+        <img src="@/assets/images/logo.png" class="w-24" />
       </div>
     </div>
 
@@ -334,7 +334,7 @@
               type="search"
               id="default-search"
               class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="جستجو در پارسی گیفت"
+              placeholder="جستجو در سورین گیفت"
               v-model="searchValue"
             />
             <!-- <button
@@ -365,7 +365,7 @@
         class="bg-white opacity-90 absolute z-50 w-64 right-0 top-0 h-screen"
       >
         <div class="logo w-full border-b">
-          <img src="assets/images/logo.svg" class="max-w-20 mx-auto py-8" />
+          <img src="assets/images/logo.png" class="max-w-20 mx-auto py-8" />
         </div>
         <ul class="flex flex-col space-y-6 p-4 font-semibold text-gray-700">
           <li @click="mobileSideState = false">
@@ -373,7 +373,7 @@
           </li>
           <li @click="mobileSideState = false">
             <nuxt-link to="/news" class="block w-full">
-              مجله پارسی گیفت</nuxt-link
+              مجله سورین گیفت</nuxt-link
             >
           </li>
           <li @click="mobileSideState = false" class="hidden">
