@@ -9,6 +9,8 @@ import api from "@/axios/index"
 import { useParsgiftStore } from "~/store/parsiStore";
 import { storeToRefs } from "pinia";
 
+
+
 useHead({
   title: "سورین گیفت",
   meta: [
@@ -30,8 +32,7 @@ async function fetchInitData() {
   
   if(data.status == 200) {
     parsiStore.$patch({
-      initData: data.result,
-      basketCount: data.result.basket_count
+      initData: data.result
     })
 
     setTimeout(() => {

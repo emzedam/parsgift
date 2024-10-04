@@ -35,7 +35,8 @@ export default defineNuxtConfig({
       },
       title: 'سورین گیفت',
       meta: [
-        { name: 'description', content: 'سورین گیفت' }
+        { name: 'description', content: 'سورین گیفت' },
+        { name: 'enamad', content: '24540191' }
       ],
       bodyAttrs: {
         class: 'font-fa'

@@ -41,11 +41,7 @@
         <div
           class="logo text-blue-500 font-bold text-2xl font-en flex items-center"
         >
-          <ul class="flex items-center gap-4">
-            <li><i class="fa-brands fa-instagram"></i></li>
-            <li><i class="fa-brands fa-telegram"></i></li>
-            <li><i class="fa-brands fa-whatsapp"></i></li>
-          </ul>
+        <a referrerpolicy='origin' target='_blank' href='https://trustseal.enamad.ir/?id=530723&Code=yJiG71c7Su7EcZQZZVZnnIOB5CAHBXyb'><img referrerpolicy='origin' src='https://trustseal.enamad.ir/logo.aspx?id=530723&Code=yJiG71c7Su7EcZQZZVZnnIOB5CAHBXyb' alt='' style='cursor:pointer' code='yJiG71c7Su7EcZQZZVZnnIOB5CAHBXyb'></a>
         </div>
       </div>
 
@@ -90,11 +86,7 @@
                   <div
                     class="about-social mt-8 flex gap-x-4 text-blue-500 justify-center items-center"
                   >
-                    <ul class="flex items-center gap-4 text-2xl">
-                      <li><i class="fa-brands fa-instagram"></i></li>
-                      <li><i class="fa-brands fa-telegram"></i></li>
-                      <li><i class="fa-brands fa-whatsapp"></i></li>
-                    </ul>
+                    <a referrerpolicy='origin' target='_blank' href='https://trustseal.enamad.ir/?id=530723&Code=yJiG71c7Su7EcZQZZVZnnIOB5CAHBXyb'><img referrerpolicy='origin' src='https://trustseal.enamad.ir/logo.aspx?id=530723&Code=yJiG71c7Su7EcZQZZVZnnIOB5CAHBXyb' alt='' style='cursor:pointer' code='yJiG71c7Su7EcZQZZVZnnIOB5CAHBXyb'></a>
                   </div>
                 </div>
               </div>

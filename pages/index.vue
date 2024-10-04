@@ -18,6 +18,5 @@ import { storeToRefs } from "pinia";
 const parsiStore = useParsgiftStore()
 
 const { initData } = storeToRefs(parsiStore)
-
 </script>
 

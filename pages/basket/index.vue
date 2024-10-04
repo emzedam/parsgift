@@ -33,16 +33,15 @@ const getBasketProducts = async () => {
     const result = await parsiStore.getBasketProducts()
     if(result.status == 200) {
        basketList.value = result.result
-       console.log(basketList.value)
-    //    if(basketList.value.length != 0) {
-    //         basketList.value.forEach((val , index) => {
-    //             if(val.attribute_id != 0) {
-    //                 totalPrice.value = totalPrice.value + Number(val.product_attribute.price)
-    //             } else {
-    //                 totalPrice.value = totalPrice.value + Number(val.price)
-    //             }
-    //         })
-    //     }
+       if(basketList.value.length != 0) {
+            basketList.value.forEach((val , index) => {
+                if(val.attribute_id != 0) {
+                    totalPrice.value = totalPrice.value + Number(val.product_attribute.price)
+                } else {
+                    totalPrice.value = totalPrice.value + Number(val.price)
+                }
+            })
+        }
     }
 }
 

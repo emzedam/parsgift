@@ -40,6 +40,27 @@ const actions = {
         
     },
 
+    async getInitBasket(authCookie) {
+        // console.log("authCookie")
+        let config = {
+            headers: {
+                Authorization:`Bearer ${authCookie}`
+            }
+        };
+
+        try {
+            const result = await api.get("/parsgift/get-basket" , config)
+            if(result.status == 200){
+                return result.data
+            }
+        }catch(err) {
+            if(err.response.status == 401){
+                cookies.remove("_uToken" , {path: "/"})
+            }
+            return false
+        }
+    },
+
     changeLoadingState(state) {
         this.globalLoading = state
     },
