@@ -30,7 +30,7 @@
             <span class="text-4xl font-fa">2</span>
           </div>
         </div>
-        <section>
+        <section id="orders">
           <div class="w-full pb-6">
             <div class="overflow-hidden">
               <div class="gap-4 lg:grid lg:grid-cols-12">
@@ -122,9 +122,9 @@
                                             >
                                               <div class="flex items-center">
                                                 <p
-                                                  class="text-sm font-regular text-gray-700 break-words"
+                                                  class="font-medium text-hamian text-gray-700 break-words rtl"
                                                 >
-                                                  {{ row.order_id }}
+                                                  سفارش #{{ row.order_id }}
                                                 </p>
                                               </div>
                                             </div>
@@ -219,8 +219,8 @@
                                                                 class="mr-1 font-medium"
                                                               >
                                                                 {{
-                                                                  row.total_purchase
-                                                                }}
+                                                                  row.total_purchase.toLocaleString('en')
+                                                                }} ریال
                                                               </span>
                                                             </div>
                                                           </div>
@@ -239,7 +239,7 @@
                                                                   class="text-[15px] font-semibold"
                                                                 >
                                                                   <span
-                                                                    class="font-semibold text-green-500"
+                                                                    class="font-bold bg-green-500/10 text-green-500 py-1 px-4 mr-2 rounded-lg"
                                                                     v-if="
                                                                       row.order_status ==
                                                                       1
@@ -247,7 +247,7 @@
                                                                     > پرداخت شده </span
                                                                   >
                                                                   <span
-                                                                    class="font-semibold text-orange-500"
+                                                                    class="font-bold bg-orange-500/10 text-orange-500 py-1 px-4 mr-2 rounded-lg"
                                                                     v-if="
                                                                       row.order_status ==
                                                                       0
@@ -269,7 +269,7 @@
                                                               <span
                                                                 class="mr-1 font-medium"
                                                               >
-                                                                <a class="text-blue-500" href="javascript:void(0)">مشاهده</a>
+                                                                <nuxt-link :to="`/user/order/${row.id}#orders-detail`" class="text-blue-500">مشاهده</nuxt-link>
                                                               </span>
                                                             </div>
                                                           </div>
@@ -301,20 +301,40 @@
                                                                 class="mr-1"
                                                               >
                                                                 <div
+                                                                  v-if="row.order_status == 0"
                                                                   class="flex justify-center item-center"
                                                                 >
-
-                                                                  <RouterLink
-                                                                    to="/view-sefaresh"
-                                                                  >
+                                                                  <div @click="removeOrder(row.id)" class="flex items-center cursor-pointer bg-red-500/10 text-red-500 py-2 px-4 rounded-xl">
+                                                                    <button
+                                                                      class="w-4  ml-2 transform cursor-pointer hover:text-gray-500 hover:scale-110"
+                                                                    >
+                                                                      <i
+                                                                        class="fa-light fa-trash text-[18px] !w-5 !h-5 font-normal"
+                                                                      ></i>
+                                                                    </button>
+                                                                    <span class="text-xs">حدف سفارش</span>
+                                                                  </div>
+                                                                  <div @click="payOrder(row.id , row.total_purchase)" class="mr-4 flex items-center cursor-pointer flex items-center cursor-pointer bg-green-500/10 text-green-500 py-2 px-4 rounded-xl">
+                                                                    <button
+                                                                      class="w-4 ml-2 transform cursor-pointer hover:text-gray-500 hover:scale-110"
+                                                                    >
+                                                                      <i
+                                                                        class="fa-light fa-credit-card text-[18px] !w-5 !h-5 font-normal"
+                                                                      ></i>
+                                                                    </button>
+                                                                    <span class="text-xs">پرداخت سفارش</span>
+                                                                  </div>
+                                                                </div>
+                                                                <div class="flex justify-center item-center" v-else>
+                                                                  <div>
                                                                     <button
                                                                       class="w-4 ml-4 transform cursor-pointer hover:text-gray-500 hover:scale-110"
                                                                     >
                                                                       <i
-                                                                        class="fa-solid fa-eye text-[18px] !w-5 !h-5 font-normal"
+                                                                        class="fa-light fa-circle-info text-[18px] !w-5 !h-5 font-normal"
                                                                       ></i>
                                                                     </button>
-                                                                  </RouterLink>
+                                                                  </div>
                                                                 </div>
                                                               </span>
                                                             </div>
@@ -414,7 +434,7 @@
                                       <td
                                         class="p-2 text-center mx-auto text-[15px]"
                                       >
-                                        {{ row.total_purchase }} ریال 
+                                        {{ row.total_purchase.toLocaleString('en') }} ریال 
                                       </td>
 
                                       <td
@@ -426,12 +446,12 @@
                                       <td class="px-3 py-2 text-center">
                                         <div class="text-[15px] font-semibold">
                                           <span
-                                            class="font-semibold text-green-500"
+                                            class="font-bold bg-green-500/10 text-green-500 py-1 px-4 mr-2 rounded-lg"
                                             v-if="row.order_status == 1"
                                             >تکمیل شده</span
                                           >
                                           <span
-                                            class="font-semibold text-orange-500"
+                                            class="font-bold bg-orange-500/10 text-orange-500 py-1 px-4 mr-2 rounded-lg"
                                             v-if="row.order_status == 0"
                                             >در انتظار پرداخت</span
                                           >

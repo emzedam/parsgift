@@ -53,7 +53,7 @@
 
                         <div class="header flex items-center justify-between w-full border-b text-green-700 ">
                             <button type="button" class="p-4  flex items-center font-bold">
-                                <i class="fa fa-plus pl-2"></i><span>شارز کیف پول</span>
+                                <i class="fa fa-plus pl-2"></i><span>شارژ کیف پول</span>
                             </button>
                             <buttun type="button" class="flex items-center justify-center w-6"><i
                                     class="fa fa-times-circle pl-4 text-xl"></i></buttun>
@@ -67,14 +67,14 @@
                                 <input type="number"
                                     v-model="price"
                                     class="appearance-none border border-gray-200 rounded-lg w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none mb-2 text-sm"
-                                    placeholder="مبلغ  خود را به تومان وارد نمایید" />
+                                    placeholder="مبلغ  خود را به ریال وارد نمایید" />
                             </div>
 
                             <div class="close border-t my-4 px-8">
-                                <button v-if="!loading" @click="addToWallet()" type="button" class="bg-green-500 px-8 py-4 rounded-lg text-white mt-4">
+                                <button  v-if="!loading" @click="addToWallet()" type="button" class="bg-green-500 px-8 py-4 rounded-lg text-white mt-4">
                                     <span>پرداخت</span><i class="fa fa-chevron-left pr-4"></i>
                                 </button>
-                                <button v-if="loading" type="button" class="bg-green-500 px-8 py-4 rounded-lg text-white mt-4">
+                                <button  v-if="loading" type="button" class="bg-green-500 px-8 py-4 rounded-lg text-white mt-4">
                                     <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
                                 </button>
                             </div>
@@ -89,6 +89,7 @@
 <script setup>
 import {useParsgiftStore} from '@/store/parsiStore'
 import {storeToRefs} from 'pinia'
+const { $swal } = useNuxtApp()
 
 const loading = ref(false)
 definePageMeta({
@@ -97,23 +98,27 @@ definePageMeta({
 })
 
 const walletModalState = ref(false)
-const price = ref(0)
+const price = ref(null)
 const parsiStore = useParsgiftStore()
 
 const addToWallet = async () => {
-    loading.value = true
-    const result = await parsiStore.add_to_wallet({
-        price: price.value
-    })
-
-    if(result.status == 200) {
-        loading.value = false
-        walletModalState.value = false
-        window.location.href = `${result.location}${result.authority}`
-    } else {
-        loading.value = false
-        walletModalState.value = false
-        showSwal("خطایی رخ داد" , result.message , "error")
+    if(price.value != null && price.value != 0 && price.value >= 10000) {
+        loading.value = true
+        const result = await parsiStore.add_to_wallet({
+            price: price.value
+        })
+    
+        if(result.status == 200) {
+            loading.value = false
+            walletModalState.value = false
+            window.location.href = `${result.location}${result.authority}`
+        } else {
+            loading.value = false
+            walletModalState.value = false
+            showSwal("خطایی رخ داد" , result.message , "error")
+        }
+    }else {
+        showSwal("خطایی رخ داد" , "مبلغ وارد شده معتبر نمیباشد" , "error")
     }
 }
 

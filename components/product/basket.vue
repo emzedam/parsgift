@@ -235,7 +235,6 @@
 
     const result = await parsiStore.save_order(data)
     if(result.status == 200) {
-      emit("removeBasket")
       loading.value = false
       window.location.href=`${result.location}${result.authority}`
     }else {

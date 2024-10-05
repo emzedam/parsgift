@@ -1,5 +1,5 @@
 <template>
-    <section class="TAB-1 p-4 border rounded-lg font-iransans ">
+    <section class="TAB-1 p-4 border rounded-lg font-iransans " id="orders-detail">
       <section>
         <div class="w-full pb-6">
           <div class="overflow-hidden">
@@ -72,9 +72,9 @@
                                           >
                                             <div class="flex items-center">
                                               <p
-                                                class="text-sm font-regular text-gray-700 break-words"
+                                                class="text-sm font-bold text-gray-700 break-words"
                                               >
-                                                {{ row.order_id }}
+                                                {{ row.order_id }} - {{ row.product.fa_title }}
                                               </p>
                                             </div>
                                           </div>
@@ -152,37 +152,8 @@
                                                               class="mr-1 font-medium"
                                                             >
                                                               {{
-                                                                row.price
+                                                                rialSeprate(row.price)
                                                               }} ریال
-                                                            </span>
-                                                          </div>
-                                                        </div>
-
-                                                        <div
-                                                          class="flex px-6 py-3 text-right"
-                                                        >
-                                                          <div
-                                                            class="flex items-center text-base font-semibold"
-                                                          >
-                                                            <span
-                                                              class="mr-1"
-                                                            >
-                                                              <div
-                                                                class="flex justify-center item-center"
-                                                              >
-
-                                                                <RouterLink
-                                                                  to="/view-sefaresh"
-                                                                >
-                                                                  <button
-                                                                    class="w-4 ml-4 transform cursor-pointer hover:text-gray-500 hover:scale-110"
-                                                                  >
-                                                                    <i
-                                                                      class="fa-solid fa-eye text-[18px] !w-5 !h-5 font-normal"
-                                                                    ></i>
-                                                                  </button>
-                                                                </RouterLink>
-                                                              </div>
                                                             </span>
                                                           </div>
                                                         </div>
@@ -266,7 +237,7 @@
                                     </td>
 
                                     <td class="p-2 text-center text-[15px]">
-                                      {{ row.price }} ریال
+                                      {{ rialSeprate(row.price) }} ریال
                                     </td>
                                   </tr>
                                 </template>
@@ -368,6 +339,11 @@ data() {
   };
 },
 methods: {
+  rialSeprate(price){
+    return price
+      .replace(/\D/g, "")
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  },
   openSubMobileTable(stateId) {
     if (stateId == this.mobileSubmenuIndex) this.mobileSubmenuIndex = null;
     else this.mobileSubmenuIndex = stateId;

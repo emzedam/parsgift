@@ -22,7 +22,7 @@
                                     </span>
                                 </li>
                                 <li class="flex justify-between text-xl font-bold">
-                                    <span>کیف پول</span><span>{{ authUser ? authUser.wallet.stock : 0 }} ریال</span>
+                                    <span>کیف پول</span><span>{{ authUser ? authUser.wallet.stock.toLocaleString('en') : 0 }} ریال</span>
                                 </li>
                             </ul>
                             <nuxt-link to="/user/wallet" class="flex item-center p-4 font-semibold cursor-pointer bg-gray-50">
@@ -33,7 +33,7 @@
                         <div class="menu border mt-4 rounded-lg">
                             <ul class="flex flex-col font-semibold divide-y">
                                 <li class="flex items-center justify-between p-4 " :class="$route.path == '/user/dashboard' ? 'bg-gray-100' : ''">
-                                    <nuxt-link to="/user/dashboard" class="w-full flex items-center justify-between">
+                                    <nuxt-link to="/user/dashboard#orders" class="w-full flex items-center justify-between">
                                         <div class="flex items-center">
                                             <i class="fa fa-home pl-2"></i>
                                             سفارشات من
@@ -114,6 +114,12 @@ const router = useRouter()
 const { $swal } = useNuxtApp()
 const parsiStore = useParsgiftStore()
 const { initData, globalLoading , authUser } = storeToRefs(parsiStore)
+
+const rialSeprate = (price) => {
+    return price
+      .replace(/\D/g, "")
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
 
 const doSignOut = async () => {
     $swal.fire({
